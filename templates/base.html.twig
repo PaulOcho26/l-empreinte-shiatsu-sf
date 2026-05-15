@@ -1,24 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <title>{% block title %}L'Empreinte | Sandrine Tribhou - Shiatsu Traditionnel{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>🌿</text></svg>">
+        
         {% block stylesheets %}
+            {# Symfony 8 charge automatiquement Tailwind via asset_mapper #}
+            <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
         {% endblock %}
 
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
-
-        {% set frankenphpHotReload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
-        {% if frankenphpHotReload %}
-        <meta name="frankenphp-hot-reload:url" content="{{ frankenphpHotReload }}">
-        <script src="https://cdn.jsdelivr.net/npm/idiomorph"></script>
-        <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
-        {% endif %}
     </head>
-    <body>
-        {% block body %}{% endblock %}
+    <body class="bg-[#fcfaf7] text-gray-800 font-sans selection:bg-indigo-100 antialiased">
+        {# Barre de navigation épurée #}
+        <nav class="py-8 px-12 flex justify-between items-center bg-white/50 backdrop-blur-sm sticky top-0 z-50">
+            <a href="{{ path('app_home') }}" class="text-xl tracking-[0.2em] font-light uppercase">L'Empreinte</a>
+            <div class="space-x-8 text-sm uppercase tracking-widest font-medium text-gray-500">
+                <a href="#" class="hover:text-gray-900 transition-colors">Soins</a>
+                <a href="#" class="hover:text-gray-900 transition-colors">Philosophie</a>
+                <a href="#" class="hover:text-gray-900 transition-colors">Contact</a>
+                <a href="#" class="bg-gray-900 text-white px-5 py-3 rounded-full hover:bg-gray-700 transition-all">Réserver</a>
+            </div>
+        </nav>
+
+        <main>
+            {% block body %}{% endblock %}
+        </main>
+
+        <footer class="py-20 text-center text-gray-400 text-xs uppercase tracking-[0.3em]">
+            &copy; {{ "now"|date("Y") }} L'Empreinte - Sandrine Tribhou
+        </footer>
     </body>
 </html>
