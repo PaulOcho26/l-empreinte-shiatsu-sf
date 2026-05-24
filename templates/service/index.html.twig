@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos Services - L'Empreinte{% endblock %}
+
+{% block body %}
+<div class="max-w-6xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-light text-gray-800 mb-10 border-b pb-4">Nos Prestations Shiatsu</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {% for service in services %}
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 hover:shadow-md transition-shadow">
+                <h2 class="text-xl font-bold text-gray-700 mb-2">{{ service.name }}</h2>
+                <div class="text-indigo-600 font-medium mb-4">
+                    {{ service.duration }} min — {{ service.price }} €
+                </div>
+                <p class="text-gray-600 mb-6 leading-relaxed">
+                    {{ service.description }}
+                </p>
+                <a href="#" class="inline-block border-2 border-gray-800 text-gray-800 px-6 py-2 rounded-lg text-sm font-semibold hover:bg-gray-800 hover:text-white transition-all">
+                    Détails du soin
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
