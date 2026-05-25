@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400&display=swap');
+
+@theme {
+  --color-zen-sand: #F7F1E8;
+  --color-zen-clay: #F0E6D9;
+  --color-zen-bronze: #A68B6D;
+  --color-zen-ink: #2D2926;
+
+  --font-serif: "Cormorant Garamond", serif;
+  --font-sans: "Montserrat", sans-serif;
+}
+
 body {
-    background-color: skyblue;
+  background-color: var(--color-zen-sand);
+  color: var(--color-zen-ink);
+  font-family: var(--font-sans);
+  margin: 0;
 }

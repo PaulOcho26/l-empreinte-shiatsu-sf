@@ -1,25 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nos Services - L'Empreinte{% endblock %}
+{% block title %}Prestations - L'Empreinte{% endblock %}
 
 {% block body %}
-<div class="max-w-6xl mx-auto px-4 py-12">
-    <h1 class="text-3xl font-light text-gray-800 mb-10 border-b pb-4">Nos Prestations Shiatsu</h1>
+{# py-12 mobile, py-24 desktop #}
+<div class="max-w-7xl mx-auto px-6 py-12 md:py-24">
+    
+    <h1 class="text-4xl sm:text-6xl md:text-8xl font-serif text-zen-ink mb-16 md:mb-24 italic leading-tight break-words">
+        Nos Prestations
+    </h1>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    {# Grille 1 col (mobile) / 2 cols (tablette) / 3 cols (desktop) #}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-16 md:gap-x-12 lg:gap-x-20">
         {% for service in services %}
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 hover:shadow-md transition-shadow">
-                <h2 class="text-xl font-bold text-gray-700 mb-2">{{ service.name }}</h2>
-                <div class="text-indigo-600 font-medium mb-4">
-                    {{ service.duration }} min — {{ service.price }} €
+            <article class="flex flex-col border-t border-zen-bronze/30 pt-10 group">
+                <h2 class="text-3xl md:text-4xl font-serif text-zen-ink mb-6 group-hover:text-zen-bronze transition-colors duration-500">
+                    {{ service.name }}
+                </h2>
+                
+                <div class="font-sans text-[10px] uppercase tracking-[0.3em] text-zen-bronze mb-8">
+                    {{ service.duration }} min — {{ service.price|number_format(2, ',', ' ') }} €
                 </div>
-                <p class="text-gray-600 mb-6 leading-relaxed">
-                    {{ service.description }}
-                </p>
-                <a href="#" class="inline-block border-2 border-gray-800 text-gray-800 px-6 py-2 rounded-lg text-sm font-semibold hover:bg-gray-800 hover:text-white transition-all">
-                    Détails du soin
+
+                <div class="font-serif italic text-xl text-zen-ink/80 leading-relaxed mb-10 flex-grow">
+                    {{ service.description|slice(0, 135) ~ '...' }}
+                </div>
+
+                <a href="{{ path('app_service_show', {'slug': service.slug}) }}" 
+                   class="inline-block font-serif text-2xl italic text-zen-ink border-b border-zen-ink/10 pb-2 w-fit hover:border-zen-bronze hover:text-zen-bronze transition-all">
+                    Découvrir l'approche
                 </a>
-            </div>
+            </article>
         {% endfor %}
     </div>
 </div>
