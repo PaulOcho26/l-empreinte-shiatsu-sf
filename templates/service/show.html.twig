@@ -9,14 +9,17 @@
     </a>
 
     <article>
-        <header class="mb-20">
-            <h1 class="text-8xl font-serif text-zen-ink mb-10 leading-[0.9]">{{ service.name }}</h1>
-            
-            <div class="flex items-center gap-16 font-sans text-[10px] uppercase tracking-[0.2em] text-zen-bronze">
-                <span class="border-b border-zen-bronze pb-1">{{ service.duration }} minutes</span>
-                <span class="text-4xl font-serif italic normal-case text-zen-ink">{{ service.price|number_format(2, ',', ' ') }} €</span>
-            </div>
-        </header>
+        {# templates/service/show.html.twig #}
+<header class="mb-16 text-center">
+    <h1 class="text-4xl sm:text-5xl md:text-7xl font-serif text-zen-ink mb-8 leading-tight break-words mx-auto">
+        {{ service.name }}
+    </h1>
+    
+    <div class="flex items-center justify-center gap-8 font-sans text-[10px] uppercase tracking-[0.2em] text-zen-bronze">
+        <span class="border-b border-zen-bronze/30 pb-1">{{ service.duration }} minutes</span>
+        <span class="text-3xl font-serif italic normal-case text-zen-ink">{{ service.price|number_format(2, ',', ' ') }} €</span>
+    </div>
+</header>
 
         <div class="grid grid-cols-1 md:grid-cols-5 gap-20">
             <div class="md:col-span-3">

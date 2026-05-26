@@ -1,19 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Prestations - L'Empreinte{% endblock %}
+{% block title %}L'Art du Soin - L'Empreinte{% endblock %}
 
 {% block body %}
-{# py-12 mobile, py-24 desktop #}
-<div class="max-w-7xl mx-auto px-6 py-12 md:py-24">
+<div class="max-w-7xl mx-auto px-6 py-16 md:py-24">
     
-    <h1 class="text-4xl sm:text-6xl md:text-8xl font-serif text-zen-ink mb-16 md:mb-24 italic leading-tight break-words">
-        Nos Prestations
-    </h1>
+    {# Titre centré, plus chaleureux et élégant #}
+    <div class="text-center mb-20 md:mb-32">
+        <h1 class="text-5xl md:text-8xl font-serif text-zen-ink italic leading-tight mb-4">
+            L'Art du Soin
+        </h1>
+        <div class="w-24 h-px bg-zen-bronze mx-auto opacity-50"></div>
+    </div>
 
-    {# Grille 1 col (mobile) / 2 cols (tablette) / 3 cols (desktop) #}
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-16 md:gap-x-12 lg:gap-x-20">
+    {# Grille corrigée : on force 1 colonne et on ne passe à 2 qu'à partir d'une certaine largeur #}
+    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-20 md:gap-x-12 lg:gap-x-20">
         {% for service in services %}
-            <article class="flex flex-col border-t border-zen-bronze/30 pt-10 group">
+            <article class="flex flex-col border-t border-zen-bronze/20 pt-10 group">
                 <h2 class="text-3xl md:text-4xl font-serif text-zen-ink mb-6 group-hover:text-zen-bronze transition-colors duration-500">
                     {{ service.name }}
                 </h2>
@@ -23,7 +26,7 @@
                 </div>
 
                 <div class="font-serif italic text-xl text-zen-ink/80 leading-relaxed mb-10 flex-grow">
-                    {{ service.description|slice(0, 135) ~ '...' }}
+                    {{ service.description|slice(0, 140) ~ '...' }}
                 </div>
 
                 <a href="{{ path('app_service_show', {'slug': service.slug}) }}" 
