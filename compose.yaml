@@ -1,15 +1,17 @@
 services:
   php:
-    image: dunglas/frankenphp:1-php8.4
+    build:
+      context: .
+      dockerfile: Dockerfile
     restart: always
     ports:
-      - "8000:8000"
+      - "8000:80"
     volumes:
       - .:/app
     environment:
-      - SERVER_NAME=:8000
+      - SERVER_NAME=:80
       - APP_RUNTIME=Symfony\Component\Runtime\SymfonyRuntime
-      - DATABASE_URL=postgresql://sandrine:182618@database:5432/l_empreinte
+      - DATABASE_URL=postgresql://sandrine:182618@database:5432/l_empreinte?serverVersion=14&charset=utf8
     depends_on:
       - database
 
@@ -17,9 +19,9 @@ services:
     image: postgres:14-alpine
     restart: always
     environment:
-      POSTGRES_DB: l_empreinte
-      POSTGRES_USER: sandrine
-      POSTGRES_PASSWORD: 182618
+      - POSTGRES_DB=l_empreinte
+      - POSTGRES_USER=sandrine
+      - POSTGRES_PASSWORD=182618
     volumes:
       - db_data:/var/lib/postgresql/data
 
