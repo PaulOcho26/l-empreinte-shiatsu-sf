@@ -24,4 +24,34 @@ Fonctionnalités principales
     • Installation simplifiée : Une structure technique optimisée pour que le site puisse être installé et déplacé sur n'importe quel serveur professionnel sans erreur.
 
 
- 
+ PERSONA 1 : L’Utilisatrice (La Patientèle)
+
+Identité : Léa, 35 ans.
+Profession : Cadre dynamique en cabinet de conseil (Toulouse).
+Situation : Rythme de vie intense, beaucoup de temps de transport et une charge mentale élevée. Elle souffre de tensions musculaires et d'un sommeil perturbé par le stress.
+Son contexte :
+Léa cherche une solution pour "débrancher". Elle a entendu parler du Shiatsu mais n'a jamais franchi le pas. Elle découvre le site de Sandrine le soir, sur son smartphone, alors qu'elle est enfin au calme. Pour elle, le site est le premier contact avec le soin.
+Ses attentes :
+    • Une ambiance immédiate : Elle veut être apaisée dès l'ouverture de la page. Si le site est agressif ou trop chargé, elle partira.
+    • La clarté : Elle veut comprendre en un coup d'œil ce que le Shiatsu peut lui apporter et combien cela coûte.
+    • La rapidité : Elle souhaite pouvoir envoyer une demande de rendez-vous ou poser une question très simplement, sans formulaires interminables.
+Ses frustrations :
+    • Les sites qui ne s'affichent pas bien sur mobile.
+    • Le manque de transparence sur les tarifs.
+    • Les designs "froids" ou trop médicaux qui ne font pas rêver.
+
+PERSONA 2 : L’Administratrice (La Praticienne)
+
+Identité : Sandrine, 45 ans.
+Profession : Thérapeute diplômée, spécialisée en Shiatsu traditionnel et Médecine Chinoise.
+Situation : Elle est experte dans son art, mais le développement web n'est pas son métier. Elle a besoin d'un outil qui lui permette d'être enfin maîtresse de sa communication.
+Son contexte :
+Sandrine disposait d'un site sous WordPress, mais elle devait déléguer la moindre modification technique ou éditoriale. Cette dépendance ralentissait la mise à jour de ses informations. Aujourd'hui, elle veut un site qui lui appartienne pleinement : un outil professionnel et élégant qu'elle peut piloter seule, sans avoir à solliciter une aide extérieure pour le quotidien.
+Ses attentes :
+    • L'autonomie totale : Elle veut pouvoir changer un tarif, ajouter une photo ou publier un article de blog en quelques minutes, en étant certaine de ne pas "casser" la mise en page.
+    • La fierté et l'indépendance : Elle veut être fière de son adresse web et savoir qu'elle peut la faire évoluer instantanément selon ses besoins.
+    • La tranquillité : Elle veut un site robuste et "clés en main" qui ne nécessite pas de maintenance technique complexe de sa part.
+Ses frustrations :
+    • Dépendre d'un tiers pour la moindre petite modification de texte ou de prix.
+    • Le sentiment de ne pas avoir le contrôle total sur son propre outil de travail.
+    • L'aspect "générique" et parfois lourd des solutions qu'elle utilisait auparavant.
