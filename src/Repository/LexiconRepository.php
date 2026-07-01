@@ -2,39 +2,39 @@
 
 namespace App\Repository;
 
-use App\Entity\Service;
+use App\Entity\Lexicon;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Service>
+ * @extends ServiceEntityRepository<Lexicon>
  */
-class ServiceRepository extends ServiceEntityRepository
+class LexiconRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Service::class);
+        parent::__construct($registry, Lexicon::class);
     }
 
     //    /**
-    //     * @return Service[] Returns an array of Service objects
+    //     * @return Lexicon[] Returns an array of Lexicon objects
     //     */
     //    public function findByExampleField($value): array
     //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
+    //        return $this->createQueryBuilder('l')
+    //            ->andWhere('l.exampleField = :val')
     //            ->setParameter('val', $value)
-    //            ->orderBy('s.id', 'ASC')
+    //            ->orderBy('l.id', 'ASC')
     //            ->setMaxResults(10)
     //            ->getQuery()
     //            ->getResult()
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Service
+    //    public function findOneBySomeField($value): ?Lexicon
     //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
+    //        return $this->createQueryBuilder('l')
+    //            ->andWhere('l.exampleField = :val')
     //            ->setParameter('val', $value)
     //            ->getQuery()
     //            ->getOneOrNullResult()
