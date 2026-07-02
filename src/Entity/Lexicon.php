@@ -23,6 +23,11 @@ class Lexicon
     #[ORM\Column(type: Types::TEXT)]
     private ?string $definition = null;
 
+    // LA RELATION PROPRE VERS L'ADMIN
+    #[ORM\ManyToOne(inversedBy: 'lexicons')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $author = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -36,7 +41,6 @@ class Lexicon
     public function setTerm(string $term): static
     {
         $this->term = $term;
-
         return $this;
     }
 
@@ -48,7 +52,6 @@ class Lexicon
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
-
         return $this;
     }
 
@@ -60,7 +63,17 @@ class Lexicon
     public function setDefinition(string $definition): static
     {
         $this->definition = $definition;
+        return $this;
+    }
 
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): static
+    {
+        $this->author = $author;
         return $this;
     }
 }
