@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -53,6 +54,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Lexicon::class, mappedBy: 'author')]
     private Collection $lexicons;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $wallet = null;
+
     public function __construct()
     {
         $this->appointments = new ArrayCollection();
@@ -98,4 +102,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /** @return Collection<int, Lexicon> */
     public function getLexicons(): Collection { return $this->lexicons; }
+
+    public function getWallet(): ?string
+    {
+        return $this->wallet;
+    }
+
+    public function setWallet(string $wallet): static
+    {
+        $this->wallet = $wallet;
+
+        return $this;
+    }
 }

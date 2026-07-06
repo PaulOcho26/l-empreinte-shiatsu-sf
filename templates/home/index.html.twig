@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}L'Empreinte - L'équilibre par le Shiatsu{% endblock %}
+
+{% block body %}
+<main class="min-h-screen flex flex-col items-center justify-center p-6 text-center">
+    
+    {# Section Titre (Inspiration Frame 01) #}
+    <div class="max-w-4xl space-y-8 mb-16">
+        <h1 class="text-6xl md:text-8xl font-serif italic leading-[1.1]">
+            L'équilibre <br>
+            <span class="text-[#8A9A5B]">par le Shiatsu</span>
+        </h1>
+        
+        <p class="text-xl md:text-2xl max-w-2xl mx-auto font-light leading-relaxed">
+            "Retrouvez l’harmonie entre le corps et l’esprit. <br>
+            Une approche thérapeutique subtile pour libérer vos tensions <br>
+            et restaurer votre vitalité profonde."
+        </p>
+
+        <div class="flex gap-4 justify-center">
+            <a href="#" class="bg-[#2D2926] text-[#F7F1E8] px-8 py-4 rounded-full uppercase tracking-widest text-xs font-bold hover:bg-[#8A9A5B] transition-all">
+                Découvrir les soins
+            </a>
+        </div>
+    </div>
+
+    {# Section Nos Protocoles (Dynamique depuis la BDD) #}
+    <section class="w-full max-w-6xl py-20 border-t border-[#2D2926]/10">
+        <h2 class="text-3xl font-serif italic mb-12">Nos Protocoles de soin</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 text-left">
+            {% for treatment in treatments %}
+                <div class="space-y-4">
+                    <div class="aspect-square bg-[#F0E6D9] rounded-2xl overflow-hidden">
+                        {# L'image viendra ici plus tard #}
+                    </div>
+                    <h3 class="text-2xl font-serif italic">{{ treatment.title }}</h3>
+                    <p class="text-sm uppercase tracking-widest opacity-60">
+                        {{ treatment.duration }} min — {{ treatment.price }} €
+                    </p>
+                    <a href="#" class="inline-block border-b border-[#2D2926] pb-1 text-sm uppercase tracking-widest hover:text-[#8A9A5B] hover:border-[#8A9A5B] transition-all">
+                        S'offrir ce soin
+                    </a>
+                </div>
+            {% else %}
+                <p>Aucun protocole n'est encore disponible dans le sanctuaire.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+</main>
+{% endblock %}

@@ -46,6 +46,9 @@ class GiftCard
     #[ORM\ManyToOne(inversedBy: 'giftCards')]
     private ?Treatment $treatment = null;
 
+    #[ORM\Column]
+    private ?bool $siDigital = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -147,6 +150,18 @@ class GiftCard
     public function setTreatment(?Treatment $treatment): static
     {
         $this->treatment = $treatment;
+        return $this;
+    }
+
+    public function isSiDigital(): ?bool
+    {
+        return $this->siDigital;
+    }
+
+    public function setSiDigital(bool $siDigital): static
+    {
+        $this->siDigital = $siDigital;
+
         return $this;
     }
 }

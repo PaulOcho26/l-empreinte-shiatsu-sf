@@ -26,8 +26,11 @@ class Article
     #[ORM\Column(length: 50)]
     private ?string $category = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $authorName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imagePath = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -35,92 +38,30 @@ class Article
     #[ORM\Column]
     private ?bool $isPublished = null;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    // LA RELATION MANQUANTE
+    #[ORM\ManyToOne(inversedBy: 'articles')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $author = null;
 
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
+    public function getId(): ?int { return $this->id; }
+    public function getTitle(): ?string { return $this->title; }
+    public function setTitle(string $title): static { $this->title = $title; return $this; }
+    public function getSlug(): ?string { return $this->slug; }
+    public function setSlug(string $slug): static { $this->slug = $slug; return $this; }
+    public function getContent(): ?string { return $this->content; }
+    public function setContent(string $content): static { $this->content = $content; return $this; }
+    public function getCategory(): ?string { return $this->category; }
+    public function setCategory(string $category): static { $this->category = $category; return $this; }
+    public function getAuthorName(): ?string { return $this->authorName; }
+    public function setAuthorName(string $authorName): static { $this->authorName = $authorName; return $this; }
+    public function getImagePath(): ?string { return $this->imagePath; }
+    public function setImagePath(?string $imagePath): static { $this->imagePath = $imagePath; return $this; }
+    public function getCreatedAt(): ?\DateTimeImmutable { return $this->createdAt; }
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static { $this->createdAt = $createdAt; return $this; }
+    public function isPublished(): ?bool { return $this->isPublished; }
+    public function setIsPublished(bool $isPublished): static { $this->isPublished = $isPublished; return $this; }
 
-    public function setTitle(string $title): static
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): static
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
-    public function getContent(): ?string
-    {
-        return $this->content;
-    }
-
-    public function setContent(string $content): static
-    {
-        $this->content = $content;
-
-        return $this;
-    }
-
-    public function getCategory(): ?string
-    {
-        return $this->category;
-    }
-
-    public function setCategory(string $category): static
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
-    public function getAuthorName(): ?string
-    {
-        return $this->authorName;
-    }
-
-    public function setAuthorName(?string $authorName): static
-    {
-        $this->authorName = $authorName;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function isPublished(): ?bool
-    {
-        return $this->isPublished;
-    }
-
-    public function setIsPublished(bool $isPublished): static
-    {
-        $this->isPublished = $isPublished;
-
-        return $this;
-    }
+    // GETTER ET SETTER POUR L'OBJET USER
+    public function getAuthor(): ?User { return $this->author; }
+    public function setAuthor(?User $author): static { $this->author = $author; return $this; }
 }
