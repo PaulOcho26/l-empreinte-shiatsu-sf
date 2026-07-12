@@ -55,3 +55,6 @@ Ses frustrations :
     • Dépendre d'un tiers pour la moindre petite modification de texte ou de prix.
     • Le sentiment de ne pas avoir le contrôle total sur son propre outil de travail.
     • L'aspect "générique" et parfois lourd des solutions qu'elle utilisait auparavant.
+
+
+    Transfert "Ubuntu" - en fait le mint de la formation - réussi
