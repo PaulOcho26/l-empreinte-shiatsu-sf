@@ -7,14 +7,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: TreatmentRepository::class)]
 class Treatment
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $title = null;
@@ -40,18 +42,21 @@ class Treatment
     #[ORM\Column]
     private ?bool $isActive = null;
 
-    /**
-     * @var Collection<int, Appointment>
-     */
+    /** @var Collection<int, Appointment> */
     #[ORM\OneToMany(targetEntity: Appointment::class, mappedBy: 'treatment')]
     private Collection $appointments;
+
+    /** @var Collection<int, GiftCard> */
+    #[ORM\OneToMany(targetEntity: GiftCard::class, mappedBy: 'treatment')]
+    private Collection $giftCards;
 
     public function __construct()
     {
         $this->appointments = new ArrayCollection();
+        $this->giftCards = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
@@ -64,7 +69,6 @@ class Treatment
     public function setTitle(string $title): static
     {
         $this->title = $title;
-
         return $this;
     }
 
@@ -76,7 +80,6 @@ class Treatment
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
-
         return $this;
     }
 
@@ -88,7 +91,6 @@ class Treatment
     public function setDuration(int $duration): static
     {
         $this->duration = $duration;
-
         return $this;
     }
 
@@ -100,7 +102,6 @@ class Treatment
     public function setPrice(string $price): static
     {
         $this->price = $price;
-
         return $this;
     }
 
@@ -112,7 +113,6 @@ class Treatment
     public function setProtocolBenefits(string $protocolBenefits): static
     {
         $this->protocolBenefits = $protocolBenefits;
-
         return $this;
     }
 
@@ -124,7 +124,6 @@ class Treatment
     public function setType(string $type): static
     {
         $this->type = $type;
-
         return $this;
     }
 
@@ -136,7 +135,6 @@ class Treatment
     public function setImagePath(?string $imagePath): static
     {
         $this->imagePath = $imagePath;
-
         return $this;
     }
 
@@ -148,13 +146,10 @@ class Treatment
     public function setIsActive(bool $isActive): static
     {
         $this->isActive = $isActive;
-
         return $this;
     }
 
-    /**
-     * @return Collection<int, Appointment>
-     */
+    /** @return Collection<int, Appointment> */
     public function getAppointments(): Collection
     {
         return $this->appointments;
@@ -166,19 +161,41 @@ class Treatment
             $this->appointments->add($appointment);
             $appointment->setTreatment($this);
         }
-
         return $this;
     }
 
     public function removeAppointment(Appointment $appointment): static
     {
         if ($this->appointments->removeElement($appointment)) {
-            // set the owning side to null (unless already changed)
             if ($appointment->getTreatment() === $this) {
                 $appointment->setTreatment(null);
             }
         }
+        return $this;
+    }
 
+    /** @return Collection<int, GiftCard> */
+    public function getGiftCards(): Collection
+    {
+        return $this->giftCards;
+    }
+
+    public function addGiftCard(GiftCard $giftCard): static
+    {
+        if (!$this->giftCards->contains($giftCard)) {
+            $this->giftCards->add($giftCard);
+            $giftCard->setTreatment($this);
+        }
+        return $this;
+    }
+
+    public function removeGiftCard(GiftCard $giftCard): static
+    {
+        if ($this->giftCards->removeElement($giftCard)) {
+            if ($giftCard->getTreatment() === $this) {
+                $giftCard->setTreatment(null);
+            }
+        }
         return $this;
     }
 }
