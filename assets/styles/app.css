@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@theme {
+  /* Ta palette Organique */
+  --color-zen-sand: #F7F1E8;
+  --color-zen-forest: #8A9A5B;
+  --color-zen-ink: #2D2926;
+
+  /* Tes Typographies Haute Couture */
+  --font-cormorant: "Cormorant Garamond", serif;
+  --font-eb-garamond: "EB Garamond", serif;
+}
+
+/* On force le style de base conforme à ton ADN */
+@layer base {
+  body {
+    background-color: var(--color-zen-sand);
+    color: var(--color-zen-ink);
+    -webkit-font-smoothing: antialiased;
+  }
+}

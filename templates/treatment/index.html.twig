@@ -1,21 +1,40 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TreatmentController!{% endblock %}
-
 {% block body %}
-<div style="margin: 150px; font-family: 'EB Garamond', serif;">
-    <h1 style="font-style: italic;">L'Art du Soin (Test technique)</h1>
-    <hr>
-    <ul>
+<main class="max-w-[1440px] mx-auto px-[150px] pt-24 pb-32 font-eb-garamond">
+    
+    {# Titre Haute Couture - Aligné au centre pour le Catalogue #}
+    <h1 class="text-6xl font-cormorant italic text-zen-ink text-center mb-24">
+        L'Art du Soin
+    </h1>
+
+    {# Grille 3 colonnes conforme à Frame 03 #}
+    <div class="grid grid-cols-3 gap-12">
         {% for soin in soins %}
-            <li>
-                <strong>{{ soin.title }}</strong> - 
-                {{ soin.duration }} min - 
-                {{ soin.price }} €
-            </li>
-        {% else %}
-            <li>Aucun soin trouvé en base de données.</li>
+            <div class="flex flex-col items-center text-center">
+                {# Bloc Image (Placeholder beige en attendant les vraies photos) #}
+                <div class="w-full aspect-[3/4] bg-zen-ink/5 rounded-sm mb-8 flex items-center justify-center">
+                    <span class="text-zen-ink/20 italic">{{ soin.type }}</span>
+                </div>
+
+                <h2 class="text-2xl font-cormorant italic text-zen-ink mb-3 uppercase tracking-wide">
+                    {{ soin.title }}
+                </h2>
+
+                <p class="text-sm text-zen-ink/60 uppercase tracking-[0.2em] mb-10">
+                    {{ soin.duration }} min — {{ soin.price }} €
+                </p>
+
+                {# Bouton "Luxe" avec soulignement fin #}
+                <a href="#" class="group inline-flex flex-col items-center">
+                    <span class="text-[11px] font-medium uppercase tracking-[0.2em] text-zen-forest mb-1">
+                        S'offrir ce soin
+                    </span>
+                    <div class="h-[0.5px] w-12 bg-zen-forest/40 transition-all group-hover:w-full group-hover:bg-zen-forest"></div>
+                </a>
+            </div>
         {% endfor %}
-    </ul>
-</div>
+    </div>
+
+</main>
 {% endblock %}
