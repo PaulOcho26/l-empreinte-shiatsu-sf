@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TreatmentController!{% endblock %}
+
+{% block body %}
+<div style="margin: 150px; font-family: 'EB Garamond', serif;">
+    <h1 style="font-style: italic;">L'Art du Soin (Test technique)</h1>
+    <hr>
+    <ul>
+        {% for soin in soins %}
+            <li>
+                <strong>{{ soin.title }}</strong> - 
+                {{ soin.duration }} min - 
+                {{ soin.price }} €
+            </li>
+        {% else %}
+            <li>Aucun soin trouvé en base de données.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
