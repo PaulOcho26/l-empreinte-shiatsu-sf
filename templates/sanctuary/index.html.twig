@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Le Shiatsu | Le Sanctuaire{% endblock %}
+
+{% block body %}
+<main class="max-w-[1440px] mx-auto px-[150px] pt-32 pb-32">
+    
+    <article class="max-w-4xl mx-auto">
+        {# En-tête de l'article #}
+    <header class="mb-16">
+        <p class="text-xs uppercase tracking-[0.4em] text-zen-forest font-medium mb-2">
+        Le Sanctuaire
+        </p>
+        <p class="text-sm italic text-zen-ink/60 font-eb-garamond tracking-wide mb-4">
+        Trois millénaires d'unité au service du vivant
+        </p>
+        <h1 class="text-6xl font-cormorant italic text-zen-ink leading-tight">
+        Le Shiatsu, <br> l'art du toucher
+        </h1>
+    </header>
+
+        {# Corps de texte avec Lettrine et Lexique #}
+        {# first-letter: gère la lettrine automatique en CSS #}
+        <div class="font-eb-garamond text-xl text-zen-ink/80 leading-relaxed text-justify 
+                    first-letter:text-7xl first-letter:font-cormorant first-letter:italic 
+                    first-letter:text-zen-forest first-letter:mr-3 first-letter:float-left">
+            
+            {{ content|raw }}
+            
+        </div>
+    </article>
+
+</main>
+{% endblock %}

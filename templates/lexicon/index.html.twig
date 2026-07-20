@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lexique de la MTC | L'EMPREINTE{% endblock %}
+
+{% block body %}
+<main class="max-w-[1440px] mx-auto px-[150px] pt-32 pb-32 min-h-screen">
+    
+    <header class="mb-24 text-center">
+        <h1 class="text-6xl font-cormorant italic text-zen-ink mb-6">Le Lexique</h1>
+        <p class="font-eb-garamond text-zen-ink/50 uppercase tracking-[0.3em] text-sm">
+            Comprendre les fondements de l'énergie
+        </p>
+    </header>
+
+    {# Liste alphabétique épurée #}
+    <div class="max-w-4xl mx-auto space-y-16">
+        {% for lexicon in terms %}
+            <div class="group border-b border-zen-ink/5 pb-12 transition-colors hover:border-zen-forest/20">
+                <div class="flex flex-col md:flex-row md:items-baseline gap-8">
+                    {# Le Terme #}
+                    <h2 class="text-3xl font-cormorant italic text-zen-forest md:w-1/3">
+                        {{ lexicon.term }}
+                    </h2>
+                    {# La Définition #}
+                    <div class="md:w-2/3">
+                        <p class="font-eb-garamond text-lg text-zen-ink/80 leading-relaxed text-justify">
+                            {{ lexicon.definition }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p class="text-center italic font-eb-garamond text-zen-ink/40">Le dictionnaire est en cours de rédaction...</p>
+        {% endfor %}
+    </div>
+
+</main>
+{% endblock %}

@@ -19,3 +19,55 @@
     -webkit-font-smoothing: antialiased;
   }
 }
+/* 1. Le mot souligné : on utilise 'inline' pour ne pas casser l'interligne du paragraphe */
+.lexicon-trigger {
+    color: var(--color-zen-forest);
+    border-bottom: 1px dotted var(--color-zen-forest);
+    cursor: pointer;
+    position: relative;
+    display: inline; 
+}
+
+/* 2. La bulle de définition : cachée par défaut */
+.lexicon-bubble {
+    visibility: hidden;
+    position: absolute;
+    bottom: 150%; /* Positionnée au dessus du mot */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 320px; /* Largeur fixe pour éviter les bulles trop fines */
+    padding: 20px;
+    background-color: white;
+    color: var(--color-zen-ink);
+    font-family: var(--font-eb-garamond);
+    font-size: 15px;
+    font-style: italic;
+    line-height: 1.4;
+    text-align: center;
+    border-radius: 4px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+    border: 1px solid rgba(138, 154, 91, 0.1);
+    z-index: 50;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none; /* Empêche la bulle de gêner la souris */
+}
+
+/* 3. La petite flèche sous la bulle */
+.lexicon-bubble::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -10px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: white transparent transparent transparent;
+}
+
+/* 4. L'affichage au survol */
+.lexicon-trigger:hover .lexicon-bubble {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(-10px);
+}
