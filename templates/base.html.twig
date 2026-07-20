@@ -5,14 +5,39 @@
         <title>{% block title %}L'Empreinte - Shiatsu & MTC{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2290%22>🏮</text></svg>">
         
-        {# C'est cette ligne qui charge Tailwind et tes JS #}
+        {# Le pont-levis vers votre CSS Tailwind #}
         {{ importmap('app') }}
 
         {% block stylesheets %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </head>
-    {# On utilise ici tes variables définies dans app.css #}
+
     <body class="bg-zen-sand text-zen-ink antialiased">
-        {% block body %}{% endblock %}
+        <header class="fixed top-0 w-full z-[100] bg-zen-sand/80 backdrop-blur-md border-b border-zen-ink/5">
+            <nav class="max-w-[1440px] mx-auto px-[150px] h-24 flex items-center justify-between font-eb-garamond">
+                {# LOGO #}
+                <a href="{{ path('app_home') }}" class="text-2xl font-cormorant italic tracking-widest uppercase">
+                    L'Empreinte
+                </a>
+
+                {# LIENS #}
+                <div class="flex gap-12 text-xs uppercase tracking-[0.2em] font-medium">
+                    <a href="{{ path('app_treatment_index') }}" class="hover:text-zen-forest transition-colors">Soins</a>
+                    <a href="{{ path('app_sanctuary_article') }}" class="hover:text-zen-forest transition-colors">Sanctuaire</a>
+                    <a href="{{ path('app_lexicon_index') }}" class="hover:text-zen-forest transition-colors">Lexique</a>
+                    <a href="{{ path('app_exchange_init') }}" class="hover:text-zen-forest transition-colors">Contact</a>
+                </div>
+
+                {# BOUTON ACTION #}
+                <a href="#" class="bg-zen-ink text-zen-sand px-6 py-2 text-[10px] uppercase tracking-[0.2em] rounded-full hover:bg-zen-forest transition-all">
+                    Réserver
+                </a>
+            </nav>
+        </header>
+
+        {# Conteneur principal avec décalage pour le header fixe #}
+        <div class="pt-24">
+            {% block body %}{% endblock %}
+        </div>
     </body>
 </html>
