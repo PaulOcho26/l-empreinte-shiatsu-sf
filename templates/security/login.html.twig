@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion | L'EMPREINTE{% endblock %}
+
+{% block body %}
+<main class="max-w-[1440px] mx-auto px-[150px] pt-40 pb-32 flex justify-center">
+    <div class="w-full max-w-md bg-white/40 backdrop-blur-md p-12 rounded-sm border border-zen-ink/5 shadow-sm">
+        
+        <form method="post">
+            {% if error %}
+                <div class="mb-6 p-4 bg-red-50 text-red-800 text-xs italic font-eb-garamond">
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                </div>
+            {% endif %}
+
+            <h1 class="text-4xl font-cormorant italic text-zen-ink mb-12 text-center">S'identifier</h1>
+
+            <div class="space-y-8 font-eb-garamond">
+                <div class="space-y-2">
+                    <label for="inputEmail" class="block text-[10px] uppercase tracking-[0.3em] text-zen-ink/40">Email</label>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="w-full bg-transparent border-b border-zen-ink/10 py-3 outline-none focus:border-zen-forest transition-all" autocomplete="email" required autofocus>
+                </div>
+
+                <div class="space-y-2 relative" data-controller="password-visibility">
+    <label for="inputPassword" class="block text-[10px] uppercase tracking-[0.3em] text-zen-ink/40 font-medium">Mot de passe</label>
+    <div class="relative">
+        <input type="password" name="password" id="inputPassword" 
+               data-password-visibility-target="input"
+               class="w-full bg-transparent border-b border-zen-ink/10 py-3 pr-10 font-eb-garamond text-lg outline-none focus:border-zen-forest transition-all" 
+               autocomplete="current-password" required>
+        
+        <button type="button" 
+                data-action="password-visibility#toggle" 
+                class="absolute right-0 bottom-3 text-zen-ink/30 hover:text-zen-forest transition-colors text-sm focus:outline-none">
+            <span data-password-visibility-target="icon">👁️</span>
+        </button>
+    </div>
+</div>
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <div class="mt-12 flex flex-col items-center gap-6">
+                <button type="submit" class="bg-zen-forest text-zen-sand px-16 py-3 uppercase text-[10px] tracking-[0.3em] rounded-full hover:bg-zen-ink transition-all shadow-sm">
+                Acceder à l'Espace
+                </button>
+                
+                <a href="{{ path('app_exchange_init') }}" class="text-[10px] uppercase tracking-[0.2em] text-zen-ink/40 hover:text-zen-forest transition-colors">
+                    Pas encore patient ? Créer un espace
+                </a>
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock %}

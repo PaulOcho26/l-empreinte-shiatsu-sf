@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Treatment{% endblock %}
+
+{% block body %}
+    <h1>Treatment</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ treatment.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ treatment.title }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ treatment.slug }}</td>
+            </tr>
+            <tr>
+                <th>Duration</th>
+                <td>{{ treatment.duration }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ treatment.price }}</td>
+            </tr>
+            <tr>
+                <th>ProtocolBenefits</th>
+                <td>{{ treatment.protocolBenefits }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ treatment.type }}</td>
+            </tr>
+            <tr>
+                <th>ImagePath</th>
+                <td>{{ treatment.imagePath }}</td>
+            </tr>
+            <tr>
+                <th>IsActive</th>
+                <td>{{ treatment.isActive ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_treatment_index') }}">back to list</a>
+
+    <a href="{{ path('app_treatment_edit', {'id': treatment.id}) }}">edit</a>
+
+    {{ include('treatment/_delete_form.html.twig') }}
+{% endblock %}

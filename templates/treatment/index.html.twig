@@ -1,40 +1,47 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Gestion des Soins | Admin{% endblock %}
+
 {% block body %}
-<main class="max-w-[1440px] mx-auto px-[150px] pt-24 pb-32 font-eb-garamond">
-    
-    {# Titre Haute Couture - Aligné au centre pour le Catalogue #}
-    <h1 class="text-6xl font-cormorant italic text-zen-ink text-center mb-24">
-        L'Art du Soin
-    </h1>
-
-    {# Grille 3 colonnes conforme à Frame 03 #}
-    <div class="grid grid-cols-3 gap-12">
-        {% for soin in soins %}
-            <div class="flex flex-col items-center text-center">
-                {# Bloc Image (Placeholder beige en attendant les vraies photos) #}
-                <div class="w-full aspect-[3/4] bg-zen-ink/5 rounded-sm mb-8 flex items-center justify-center">
-                    <span class="text-zen-ink/20 italic">{{ soin.type }}</span>
-                </div>
-
-                <h2 class="text-2xl font-cormorant italic text-zen-ink mb-3 uppercase tracking-wide">
-                    {{ soin.title }}
-                </h2>
-
-                <p class="text-sm text-zen-ink/60 uppercase tracking-[0.2em] mb-10">
-                    {{ soin.duration }} min — {{ soin.price }} €
-                </p>
-
-                {# Bouton "Luxe" avec soulignement fin #}
-                <a href="#" class="group inline-flex flex-col items-center">
-                    <span class="text-[11px] font-medium uppercase tracking-[0.2em] text-zen-forest mb-1">
-                        S'offrir ce soin
-                    </span>
-                    <div class="h-[0.5px] w-12 bg-zen-forest/40 transition-all group-hover:w-full group-hover:bg-zen-forest"></div>
-                </a>
-            </div>
-        {% endfor %}
+<main class="max-w-[1440px] mx-auto px-[150px] pt-12 pb-32">
+    <div class="flex justify-between items-baseline mb-12">
+        <h1 class="text-4xl font-cormorant italic text-zen-ink">Gestion du Catalogue</h1>
+        <a href="{{ path('app_treatment_new') }}" class="text-[10px] uppercase tracking-widest text-zen-forest font-bold border-b border-zen-forest/20 pb-1">
+            + Ajouter un soin
+        </a>
     </div>
 
+    <div class="overflow-x-auto bg-white/30 backdrop-blur-sm rounded-sm border border-zen-ink/5">
+        <table class="w-full font-eb-garamond text-sm text-left">
+            <thead>
+                <tr class="border-b border-zen-ink/10 text-[10px] uppercase tracking-widest text-zen-ink/40">
+                    <th class="px-6 py-4">Soin</th>
+                    <th class="px-6 py-4">Durée</th>
+                    <th class="px-6 py-4">Prix</th>
+                    <th class="px-6 py-4 text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-zen-ink/5">
+                {% for treatment in treatments %}
+                    <tr class="hover:bg-zen-sand/50 transition-colors">
+                        <td class="px-6 py-4">
+                            <span class="font-bold text-zen-ink">{{ treatment.title }}</span><br>
+                            <span class="text-xs text-zen-ink/40 italic">{{ treatment.type }}</span>
+                        </td>
+                        <td class="px-6 py-4 text-zen-ink/60">{{ treatment.duration }} min</td>
+                        <td class="px-6 py-4 font-bold text-zen-forest">{{ treatment.price }} €</td>
+                        <td class="px-6 py-4 text-right space-x-4">
+                            <a href="{{ path('app_treatment_show', {'id': treatment.id}) }}" class="hover:text-zen-forest">Voir</a>
+                            <a href="{{ path('app_treatment_edit', {'id': treatment.id}) }}" class="hover:text-zen-forest font-bold">Éditer</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="px-6 py-12 text-center italic text-zen-ink/40">Aucun soin enregistré.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </main>
 {% endblock %}
