@@ -1,13 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Treatment{% endblock %}
+{% block title %}Modifier le soin | L'EMPREINTE{% endblock %}
 
 {% block body %}
-    <h1>Edit Treatment</h1>
+<main class="max-w-[1440px] mx-auto px-[150px] pt-20 pb-32">
+    <header class="mb-12">
+        <a href="{{ path('app_treatment_index') }}" class="text-[10px] uppercase tracking-widest text-zen-ink/40 hover:text-zen-forest transition-colors">← Retour à la liste</a>
+        <h1 class="text-4xl font-cormorant italic text-zen-ink mt-4">Modifier la prestation</h1>
+    </header>
 
-    {{ include('treatment/_form.html.twig', {'button_label': 'Update'}) }}
+    <div class="bg-white/30 backdrop-blur-sm p-12 rounded-sm border border-zen-ink/5 max-w-2xl">
+        {{ include('treatment/_form.html.twig') }}
 
-    <a href="{{ path('app_treatment_index') }}">back to list</a>
-
-    {{ include('treatment/_delete_form.html.twig') }}
+        <div class="mt-8 pt-8 border-t border-zen-ink/5">
+            {{ include('treatment/_delete_form.html.twig') }}
+        </div>
+    </div>
+</main>
 {% endblock %}

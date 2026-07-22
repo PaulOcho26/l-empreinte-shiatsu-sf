@@ -1,13 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Lexicon{% endblock %}
+{% block title %}Modifier le terme | L'EMPREINTE{% endblock %}
 
 {% block body %}
-    <h1>Edit Lexicon</h1>
+<main class="max-w-[1440px] mx-auto px-[150px] pt-20 pb-32">
+    <header class="mb-12">
+        <a href="{{ path('app_lexicon_index') }}" class="text-[10px] uppercase tracking-widest text-zen-ink/40 hover:text-zen-forest transition-colors">← Retour au lexique</a>
+        <h1 class="text-4xl font-cormorant italic text-zen-ink mt-4">Modifier le terme</h1>
+    </header>
 
-    {{ include('lexicon/_form.html.twig', {'button_label': 'Update'}) }}
+    <div class="bg-white/30 backdrop-blur-sm p-12 rounded-sm border border-zen-ink/5 max-w-2xl">
+        {# ATTENTION : On inclut bien le formulaire du LEXICON ici #}
+        {{ include('lexicon/_form.html.twig') }}
 
-    <a href="{{ path('app_lexicon_index') }}">back to list</a>
-
-    {{ include('lexicon/_delete_form.html.twig') }}
+        <div class="mt-8 pt-8 border-t border-zen-ink/5">
+            {{ include('lexicon/_delete_form.html.twig') }}
+        </div>
+    </div>
+</main>
 {% endblock %}

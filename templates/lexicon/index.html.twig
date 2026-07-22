@@ -1,39 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Lexicon index{% endblock %}
+{% block title %}Gestion du Lexique | Admin{% endblock %}
 
 {% block body %}
-    <h1>Lexicon index</h1>
+<main class="max-w-[1440px] mx-auto px-[150px] pt-12 pb-32">
+    <div class="flex justify-between items-baseline mb-12">
+        <h1 class="text-4xl font-cormorant italic text-zen-ink">Gestion du Lexique</h1>
+        <a href="{{ path('app_lexicon_new') }}" class="text-[10px] uppercase tracking-widest text-zen-forest font-bold border-b border-zen-forest/20 pb-1">
+            + Ajouter un terme
+        </a>
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Term</th>
-                <th>Slug</th>
-                <th>Definition</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for lexicon in lexicons %}
-            <tr>
-                <td>{{ lexicon.id }}</td>
-                <td>{{ lexicon.term }}</td>
-                <td>{{ lexicon.slug }}</td>
-                <td>{{ lexicon.definition }}</td>
-                <td>
-                    <a href="{{ path('app_lexicon_show', {'id': lexicon.id}) }}">show</a>
-                    <a href="{{ path('app_lexicon_edit', {'id': lexicon.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_lexicon_new') }}">Create new</a>
+    <div class="bg-white/30 backdrop-blur-sm rounded-sm border border-zen-ink/5">
+        <table class="w-full font-eb-garamond text-sm text-left">
+            <thead>
+                <tr class="border-b border-zen-ink/10 text-[10px] uppercase tracking-widest text-zen-ink/40">
+                    <th class="px-6 py-4 w-1/4">Terme</th>
+                    <th class="px-6 py-4">Définition</th>
+                    <th class="px-6 py-4 text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-zen-ink/5">
+                {% for lexicon in lexicons %}
+                    <tr class="hover:bg-zen-sand/50 transition-colors">
+                        <td class="px-6 py-4 font-bold text-zen-forest italic text-xl font-cormorant">
+                            {{ lexicon.term }}
+                        </td>
+                        <td class="px-6 py-4 text-zen-ink/70 leading-relaxed">
+                            {{ lexicon.definition|slice(0, 150) }}...
+                        </td>
+                        <td class="px-6 py-4 text-right space-x-4">
+                            <a href="{{ path('app_lexicon_edit', {'id': lexicon.id}) }}" class="hover:text-zen-forest font-bold underline decoration-zen-forest/20">Éditer</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</main>
 {% endblock %}

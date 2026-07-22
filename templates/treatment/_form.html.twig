@@ -1,4 +1,22 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<div class="space-y-8 font-eb-garamond">
+    {{ form_start(form) }}
+        <div class="space-y-6">
+            {% for child in form %}
+                {% if child.vars.name != '_token' %}
+                    <div class="space-y-2">
+                        {{ form_label(child, null, {'label_attr': {'class': 'block text-[10px] uppercase tracking-widest text-zen-ink/40 font-medium'}}) }}
+                        {{ form_widget(child, {'attr': {'class': 'w-full bg-transparent border-b border-zen-ink/10 py-2 outline-none focus:border-zen-forest transition-all text-zen-ink'}}) }}
+                        {{ form_errors(child) }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="mt-12 flex items-center gap-8">
+            <button class="bg-zen-forest text-zen-sand px-10 py-2.5 rounded-full text-[10px] uppercase tracking-widest font-bold hover:bg-zen-ink transition-all shadow-sm">
+                {{ button_label|default('Enregistrer les modifications') }}
+            </button>
+            <a href="{{ path('app_treatment_index') }}" class="text-[10px] uppercase tracking-widest text-zen-ink/40 hover:text-zen-ink">Annuler</a>
+        </div>
+    {{ form_end(form) }}
+</div>

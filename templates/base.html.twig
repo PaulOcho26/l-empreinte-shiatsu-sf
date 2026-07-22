@@ -5,7 +5,6 @@
         <title>{% block title %}L'Empreinte - Shiatsu & MTC{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2290%22>🏮</text></svg>">
         
-        {# Le pont-levis vers votre CSS Tailwind #}
         {{ importmap('app') }}
 
         {% block stylesheets %}{% endblock %}
@@ -15,28 +14,43 @@
     <body class="bg-zen-sand text-zen-ink antialiased">
         <header class="fixed top-0 w-full z-[100] bg-zen-sand/80 backdrop-blur-md border-b border-zen-ink/5">
             <nav class="max-w-[1440px] mx-auto px-[150px] h-20 flex items-center justify-between font-eb-garamond">
-    {# LOGO #}
-    <a href="{{ path('app_home') }}" class="text-xl font-cormorant italic tracking-widest uppercase text-zen-ink">
-        L'Empreinte
-    </a>
+                
+                {# 1. LOGO #}
+                <a href="{{ path('app_home') }}" class="text-xl font-cormorant italic tracking-widest uppercase text-zen-ink hover:opacity-70 transition-opacity">
+                    L'Empreinte
+                </a>
 
-    {# LIENS #}
-    <div class="flex gap-10 text-[10px] uppercase tracking-[0.25em] font-medium text-zen-ink/70">
-        <a href="{{ path('app_treatment_index') }}" class="hover:text-zen-forest transition-colors">Soins</a>
-        <a href="{{ path('app_sanctuary_article') }}" class="hover:text-zen-forest transition-colors">Sanctuaire</a>
-        <a href="{{ path('app_lexicon_index') }}" class="hover:text-zen-forest transition-colors">Lexique</a>
-        <a href="{{ path('app_exchange_init') }}" class="hover:text-zen-forest transition-colors">Contact</a>
-    </div>
+                {# 2. LIENS DE NAVIGATION #}
+                <div class="flex gap-10 text-[10px] uppercase tracking-[0.25em] font-medium text-zen-ink/70 items-center">
+                    <a href="{{ path('app_treatment_index') }}" class="hover:text-zen-forest transition-colors">Soins</a>
+                    <a href="{{ path('app_sanctuary_article') }}" class="hover:text-zen-forest transition-colors">Sanctuaire</a>
+                    <a href="{{ path('app_lexicon_index') }}" class="hover:text-zen-forest transition-colors">Lexique</a>
+                    <a href="{{ path('app_exchange_init') }}" class="hover:text-zen-forest transition-colors">Contact</a>
 
-    {# BOUTON RÉSERVER - Renforcé #}
-    <a href="#" class="border border-zen-ink text-zen-ink px-8 py-2.5 text-[11px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-zen-ink hover:text-zen-sand transition-all shadow-sm">
-    Réserver
-    </a>
-</nav>
+                    {# --- LOGIQUE D'AUTHENTIFICATION --- #}
+                    <div class="h-4 w-[1px] bg-zen-ink/10 mx-2"></div> {# Séparateur vertical discret #}
+                    
+                    {% if app.user %}
+                        {# Si connecté, on affiche le prénom et le lien de sortie #}
+                        <span class="text-zen-forest italic lowercase tracking-normal font-normal mr-2">
+                            {{ app.user.firstName }}
+                        </span>
+                        <a href="{{ path('app_logout') }}" class="hover:text-red-800 transition-colors">Déconnexion</a>
+                    {% else %}
+                        {# Si anonyme, lien vers le login #}
+                        <a href="{{ path('app_login') }}" class="hover:text-zen-forest transition-colors">Connexion</a>
+                    {% endif %}
+                </div>
+
+                {# 3. BOUTON ACTION #}
+                <a href="#" class="border border-zen-ink text-zen-ink px-8 py-2.5 text-[11px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-zen-ink hover:text-zen-sand transition-all shadow-sm">
+                    Réserver
+                </a>
+            </nav>
         </header>
 
         {# Conteneur principal avec décalage pour le header fixe #}
-        <div class="pt-24">
+        <div class="pt-20">
             {% block body %}{% endblock %}
         </div>
     </body>

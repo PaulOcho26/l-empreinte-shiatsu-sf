@@ -108,4 +108,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getWallet(): ?string { return $this->wallet; }
     public function setWallet(string $wallet): static { $this->wallet = $wallet; return $this; }
+
+    
 }
