@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de Bord | L'EMPREINTE{% endblock %}
+
+{% block body %}
+<main class="max-w-[1440px] mx-auto px-[150px] pt-20 pb-32">
+    <h1 class="text-5xl font-cormorant italic text-zen-ink mb-16">Espace de Pilotage</h1>
+
+    <div class="grid grid-cols-2 gap-12">
+        {# Carte Gestion des Soins #}
+        <a href="{{ path('app_treatment_index') }}" class="group p-12 bg-white/30 backdrop-blur-md border border-zen-ink/5 rounded-sm hover:border-zen-forest/40 transition-all">
+            <h2 class="text-2xl font-cormorant italic text-zen-ink group-hover:text-zen-forest mb-4">Le Catalogue</h2>
+            <p class="font-eb-garamond text-zen-ink/60 italic">Gérer vos prestations, tarifs et durées de soin.</p>
+        </a>
+
+        {# Carte Gestion du Lexique #}
+        <a href="{{ path('app_lexicon_index') }}" class="group p-12 bg-white/30 backdrop-blur-md border border-zen-ink/5 rounded-sm hover:border-zen-forest/40 transition-all">
+            <h2 class="text-2xl font-cormorant italic text-zen-ink group-hover:text-zen-forest mb-4">Le Lexique</h2>
+            <p class="font-eb-garamond text-zen-ink/60 italic">Enrichir les termes techniques du Sanctuaire.</p>
+        </a>
+    </div>
+</main>
+{% endblock %}

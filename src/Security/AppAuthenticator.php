@@ -45,13 +45,11 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
-            return new RedirectResponse($targetPath);
+        // Si l'utilisateur est Admin, on l'envoie sur le Dashboard
+        if (in_array('ROLE_ADMIN', $token->getRoleNames())) {
+            return new RedirectResponse($this->urlGenerator->generate('app_admin_dashboard'));
         }
 
-        // REDIRECTION HAUTE COUTURE : 
-        // Si Sandrine se connecte, on peut l'envoyer directement vers la gestion des soins
-        // Sinon, on l'envoie vers l'accueil.
         return new RedirectResponse($this->urlGenerator->generate('app_home'));
     }
 
