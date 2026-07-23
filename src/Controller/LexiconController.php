@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/lexicon')]
+#[Route('/admin/lexique')]
 final class LexiconController extends AbstractController
 {
     #[Route(name: 'app_lexicon_index', methods: ['GET'])]

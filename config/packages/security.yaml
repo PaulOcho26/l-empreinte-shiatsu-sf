@@ -27,8 +27,8 @@ security:
     # Note: L'ordre est vital. On verrouille du plus précis au plus général.
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/treatment, roles: ROLE_ADMIN }
-        - { path: ^/lexicon, roles: ROLE_ADMIN }
+        # - { path: ^/treatment, roles: ROLE_ADMIN }
+        # - { path: ^/lexicon, roles: ROLE_ADMIN }
 
 when@test:
     security:

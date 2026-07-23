@@ -26,56 +26,25 @@ class Payment
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    // RELATION VERS L'ACHETEUR (Déjà prévue dans votre User.php)
+    #[ORM\ManyToOne(inversedBy: 'payments')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $payer = null;
 
-    public function getAmount(): ?string
-    {
-        return $this->amount;
-    }
+    public function getId(): ?int { return $this->id; }
 
-    public function setAmount(string $amount): static
-    {
-        $this->amount = $amount;
+    public function getAmount(): ?string { return $this->amount; }
+    public function setAmount(string $amount): static { $this->amount = $amount; return $this; }
 
-        return $this;
-    }
+    public function getStripeId(): ?string { return $this->stripeId; }
+    public function setStripeId(?string $stripeId): static { $this->stripeId = $stripeId; return $this; }
 
-    public function getStripeId(): ?string
-    {
-        return $this->stripeId;
-    }
+    public function getStatus(): ?string { return $this->status; }
+    public function setStatus(string $status): static { $this->status = $status; return $this; }
 
-    public function setStripeId(?string $stripeId): static
-    {
-        $this->stripeId = $stripeId;
+    public function getCreatedAt(): ?\DateTimeImmutable { return $this->createdAt; }
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static { $this->createdAt = $createdAt; return $this; }
 
-        return $this;
-    }
-
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): static
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
+    public function getPayer(): ?User { return $this->payer; }
+    public function setPayer(?User $payer): static { $this->payer = $payer; return $this; }
 }

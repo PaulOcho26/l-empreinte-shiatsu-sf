@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/treatment')]
+#[Route('/admin/soins')]
 final class TreatmentController extends AbstractController
 {
     #[Route(name: 'app_treatment_index', methods: ['GET'])]
@@ -71,7 +71,7 @@ final class TreatmentController extends AbstractController
     #[Route('/{id}', name: 'app_treatment_delete', methods: ['POST'])]
     public function delete(Request $request, Treatment $treatment, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$treatment->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $treatment->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($treatment);
             $entityManager->flush();
         }
