@@ -16,28 +16,25 @@ class AppointmentRepository extends ServiceEntityRepository
         parent::__construct($registry, Appointment::class);
     }
 
-//    /**
-//     * @return Appointment[] Returns an array of Appointment objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * LOGIQUE MÉTIER : Vérifie si un créneau est libre
+     * Prend en compte la durée du soin + 15 min de "respiration"
+     */
+    public function isSlotAvailable(\DateTimeInterface $requestedStart, int $durationMinutes): bool
+    {
+        // On calcule la fin (Soin + 15 min de respiration)
+        $requestedEnd = (clone $requestedStart)->modify('+' . ($durationMinutes + 15) . ' minutes');
 
-//    public function findOneBySomeField($value): ?Appointment
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $qb = $this->createQueryBuilder('a')
+            ->select('COUNT(a.id)')
+            ->where('a.dateTime < :requestedEnd') // CORRECTION : dateTime
+            ->andWhere('a.dateTime > :bufferStart') // CORRECTION : dateTime
+            ->setParameter('requestedEnd', $requestedEnd)
+            ->setParameter('bufferStart', (clone $requestedStart)->modify('-90 minutes'))
+            ->getQuery();
+
+        $count = $qb->getSingleScalarResult();
+
+        return (int)$count === 0;
+    }
 }

@@ -56,6 +56,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Lexicon::class, mappedBy: 'author')]
     private Collection $lexicons;
 
+    /** @var Collection<int, Payment> */
+    #[ORM\OneToMany(targetEntity: Payment::class, mappedBy: 'payer')]
+    private Collection $payments;
+
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $wallet = null;
 
@@ -66,6 +70,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->articles = new ArrayCollection();
         $this->therapeuticExchanges = new ArrayCollection();
         $this->lexicons = new ArrayCollection();
+        $this->payments = new ArrayCollection();
     }
 
     // --- SÉCURITÉ ---
@@ -108,6 +113,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getWallet(): ?string { return $this->wallet; }
     public function setWallet(string $wallet): static { $this->wallet = $wallet; return $this; }
+
+    /** @return Collection<int, Payment> */
+    public function getPayments(): Collection { return $this->payments; }
+
+    public function addPayment(Payment $payment): static
+    {
+        if (!$this->payments->contains($payment)) {
+            $this->payments->add($payment);
+            $payment->setPayer($this);
+        }
+        return $this;
+    }
+
+    public function removePayment(Payment $payment): static
+    {
+        if ($this->payments->removeElement($payment)) {
+            if ($payment->getPayer() === $this) {
+                $payment->setPayer(null);
+            }
+        }
+        return $this;
+    }
 
     
 }

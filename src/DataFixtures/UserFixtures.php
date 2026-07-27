@@ -34,7 +34,7 @@ public function load(ObjectManager $manager): void
         $charles->setLastName('Debord');
         $charles->setRoles(['ROLE_USER']);
         $charles->setWallet('0.00');
-        $charles->setPassword($this->hasher->hashPassword($charles, 'Azerty123!'));
+        $charles->setPassword($this->hasher->hashPassword($charles, 'Azerty456!'));
 
         $manager->persist($charles);
 

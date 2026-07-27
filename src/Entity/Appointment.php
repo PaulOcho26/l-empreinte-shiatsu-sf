@@ -4,14 +4,16 @@ namespace App\Entity;
 
 use App\Repository\AppointmentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: AppointmentRepository::class)]
 class Appointment
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private ?Uuid $id = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $dateTime = null;
@@ -26,7 +28,7 @@ class Appointment
     #[ORM\ManyToOne(inversedBy: 'appointments')]
     private ?Treatment $treatment = null;
 
-    public function getId(): ?int
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
@@ -39,7 +41,6 @@ class Appointment
     public function setDateTime(\DateTimeImmutable $dateTime): static
     {
         $this->dateTime = $dateTime;
-
         return $this;
     }
 
@@ -51,7 +52,6 @@ class Appointment
     public function setStatus(string $status): static
     {
         $this->status = $status;
-
         return $this;
     }
 
@@ -63,7 +63,6 @@ class Appointment
     public function setPatient(?User $patient): static
     {
         $this->patient = $patient;
-
         return $this;
     }
 
@@ -75,7 +74,6 @@ class Appointment
     public function setTreatment(?Treatment $treatment): static
     {
         $this->treatment = $treatment;
-
         return $this;
     }
 }
