@@ -6,6 +6,7 @@ use App\Service\LexiconLinker;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Repository\ArticleRepository;
 
 final class SanctuaryController extends AbstractController
 {
@@ -24,4 +25,19 @@ $content = "Le Shiatsu est bien plus qu'une technique de massage ; c'est une dis
             'content' => $linkedContent,
         ]);
     }
+
+    #[Route('/sanctuaire/article/{slug}', name: 'app_sanctuary_show')]
+public function show(string $slug, \App\Repository\ArticleRepository $articleRepo, \App\Service\LexiconLinker $linker): Response
+{
+    $article = $articleRepo->findOneBy(['slug' => $slug]);
+
+    if (!$article) {
+        throw $this->createNotFoundException('Cet article est en cours de rédaction dans le Sanctuaire.');
+    }
+
+    return $this->render('sanctuary/show.html.twig', [
+        'article' => $article,
+        'content' => $linker->linkTerms($article->getContent()),
+    ]);
+}
 }

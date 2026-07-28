@@ -25,13 +25,19 @@
                     <a href="{{ path('app_sanctuary_article') }}" class="hover:text-zen-forest transition-colors">Sanctuaire</a>
                     <a href="{{ path('app_lexique_public') }}" class="hover:text-zen-forest transition-colors">Lexique</a>
                     <a href="{{ path('app_exchange_init') }}" class="hover:text-zen-forest transition-colors">Contact</a>
+                    
+                    {# BARRE DE RECHERCHE #}
+                    <form action="{{ path('app_search') }}" method="GET" class="relative ml-4 group">
+                        <input type="text" name="q" placeholder="Rechercher..." 
+                        class="bg-transparent border-b border-zen-ink/5 py-1 text-[10px] uppercase tracking-widest outline-none focus:border-zen-forest w-24 focus:w-40 transition-all placeholder:text-zen-ink/20">
+                        <button type="submit" class="absolute right-0 bottom-2 opacity-20 group-hover:opacity-100 transition-opacity">🔍</button>
+                    </form>
 
                     {# SÉPARATEUR #}
                     <div class="h-4 w-[1px] bg-zen-ink/10 mx-2"></div>
                     
                     {# LOGIQUE UTILISATEUR #}
                     {% if app.user %}
-                        {# SI ADMIN (Sandrine) #}
                         {% if is_granted('ROLE_ADMIN') %}
                             <a href="{{ path('app_admin_dashboard') }}" class="text-zen-forest font-bold tracking-[0.1em] mr-4 flex items-center gap-2">
                                 <span class="w-1.5 h-1.5 bg-zen-forest rounded-full"></span>
@@ -39,11 +45,12 @@
                             </a>
                         {% endif %}
 
-                        {# NOM ET DÉCONNEXION #}
-                        <span class="text-zen-forest italic lowercase font-normal mr-3">{{ app.user.firstName }}</span>
+                        {# LIEN VERS MON ESPACE SUR LE PRÉNOM #}
+                        <a href="{{ path('app_member_dashboard') }}" class="text-zen-forest italic lowercase font-normal mr-3 hover:text-zen-ink transition-colors">
+                            {{ app.user.firstName }}
+                        </a>
                         <a href="{{ path('app_logout') }}" class="hover:text-red-800 transition-colors">Déconnexion</a>
                     {% else %}
-                        {# SI ANONYME #}
                         <a href="{{ path('app_login') }}" class="hover:text-zen-forest transition-colors">Connexion</a>
                     {% endif %}
                 </div>

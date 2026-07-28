@@ -40,4 +40,17 @@ class LexiconRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    /**
+     * Recherche un terme dans le dictionnaire
+     */
+    public function findBySearch(string $query): array
+    {
+        return $this->createQueryBuilder('l')
+            ->where('l.term LIKE :q')
+            ->orWhere('l.definition LIKE :q')
+            ->setParameter('q', '%' . $query . '%')
+            ->orderBy('l.term', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

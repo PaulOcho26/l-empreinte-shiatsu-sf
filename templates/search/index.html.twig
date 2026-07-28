@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recherche | L'EMPREINTE{% endblock %}
+
+{% block body %}
+<main class="max-w-[1440px] mx-auto px-[150px] pt-32 pb-32 min-h-screen">
+    
+    <header class="mb-20">
+        <h1 class="text-5xl font-cormorant italic text-zen-ink">
+            Résultats pour : <span class="text-zen-forest">"{{ query }}"</span>
+        </h1>
+        <div class="h-[0.5px] w-48 bg-zen-forest/30 mt-4"></div>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-24">
+        
+        {# SECTION LEXIQUE #}
+        <section class="space-y-12">
+            <h2 class="text-xs uppercase tracking-[0.4em] text-zen-ink/40 font-medium border-b border-zen-ink/5 pb-4">
+                Dans le Lexique
+            </h2>
+            
+            <div class="space-y-10">
+                {% for item in lexicon %}
+                    <div class="group">
+                        <h3 class="text-2xl font-cormorant italic text-zen-forest mb-2">{{ item.term }}</h3>
+                        <p class="font-eb-garamond text-zen-ink/70 leading-relaxed text-justify italic">
+                            {{ item.definition }}
+                        </p>
+                    </div>
+                {% else %}
+                    <p class="font-eb-garamond italic text-zen-ink/30">Aucun terme technique trouvé.</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        {# SECTION ARTICLES #}
+        <section class="space-y-12">
+            <h2 class="text-xs uppercase tracking-[0.4em] text-zen-ink/40 font-medium border-b border-zen-ink/5 pb-4">
+                Dans le Sanctuaire
+            </h2>
+            
+            <div class="space-y-10">
+                {% for article in articles %}
+                    <a href="{{ path('app_sanctuary_show', { 'slug': article.slug }) }}" class="block group">
+                        <h3 class="text-2xl font-cormorant italic text-zen-ink group-hover:text-zen-forest transition-colors mb-2">
+                            {{ article.title }}
+                        </h3>
+                        <p class="font-eb-garamond text-sm text-zen-ink/50 line-clamp-2">
+                            {{ article.content|striptags }}
+                        </p>
+                    </a>
+                {% else %}
+                    <p class="font-eb-garamond italic text-zen-ink/30">Aucun article de fond trouvé.</p>
+                {% endfor %}
+            </div>
+        </section>
+
+    </div>
+</main>
+{% endblock %}

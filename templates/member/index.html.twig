@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Espace | L'EMPREINTE{% endblock %}
+
+{% block body %}
+<main class="max-w-[1440px] mx-auto px-[150px] pt-32 pb-32 min-h-screen font-eb-garamond">
+    
+    <header class="mb-20">
+        <h1 class="text-6xl font-cormorant italic text-zen-ink mb-4">
+            Bonjour, {{ user.firstName }}
+        </h1>
+        <p class="text-zen-ink/50 uppercase tracking-[0.3em] text-xs">
+            Votre chemin de soin et d'équilibre
+        </p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-start">
+        
+        {# BLOC 1 : RENDEZ-VOUS #}
+        <section class="space-y-12">
+            <h2 class="text-2xl font-cormorant italic border-b border-zen-ink/5 pb-4">Vos séances</h2>
+            
+            <div class="space-y-8">
+                {% for rdv in appointments %}
+                    <div class="flex gap-8 items-baseline group">
+                        <div class="text-zen-forest font-bold text-lg">
+                            {{ rdv.dateTime|date('d.m.Y') }}
+                        </div>
+                        <div class="flex-1">
+                            <div class="text-zen-ink font-medium">{{ rdv.treatment.title }}</div>
+                            <div class="text-xs text-zen-ink/40 tracking-widest mt-1">
+                             {{ rdv.dateTime|date('H:i') }} — 
+                             <span class="italic capitalize">{{ rdv.status|lower }}</span>
+                        </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <p class="italic text-zen-ink/40">Aucune séance planifiée pour le moment.</p>
+                    <a href="{{ path('app_appointment_new') }}" class="inline-block mt-4 text-zen-forest underline decoration-zen-forest/20 hover:decoration-zen-forest transition-all">
+                        Prendre un premier rendez-vous
+                    </a>
+                {% endfor %}
+            </div>
+        </section>
+
+        {# BLOC 2 : WALLET & INFOS #}
+        <section class="bg-white/30 backdrop-blur-sm p-12 rounded-sm border border-zen-ink/5">
+            <h2 class="text-[10px] uppercase tracking-[0.4em] text-zen-ink/40 mb-8">Votre Wallet</h2>
+            <div class="text-5xl font-cormorant italic text-zen-forest mb-4">
+                {{ user.wallet }} €
+            </div>
+            <p class="text-sm text-zen-ink/60 leading-relaxed italic">
+                Ce solde est utilisable pour vos prochaines réservations ou vos forfaits de soins.
+            </p>
+        </section>
+
+    </div>
+</main>
+{% endblock %}

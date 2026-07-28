@@ -40,4 +40,22 @@ class ArticleRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+/**
+     * Recherche un mot-clé dans les articles
+     */
+/**
+     * Recherche un mot-clé dans les articles
+     */
+    public function findBySearch(string $query): array
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.title LIKE :q')
+            ->orWhere('a.content LIKE :q')
+            // Correction : on utilise les noms des propriétés PHP (CamelCase)
+            ->andWhere('a.isPublished = true') 
+            ->setParameter('q', '%' . $query . '%')
+            ->orderBy('a.createdAt', 'DESC') // Correction : createdAt au lieu de created_at
+            ->getQuery()
+            ->getResult();
+    }
 }
