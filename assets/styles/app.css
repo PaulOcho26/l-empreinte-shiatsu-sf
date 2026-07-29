@@ -70,4 +70,16 @@
     visibility: visible;
     opacity: 1;
     transform: translateX(-50%) translateY(-10px);
+
+    /* Signature Lotus en arrière-plan */
+.lotus-watermark {
+    position: fixed;
+    bottom: -100px; /* Légèrement coupé par le bord de l'écran */
+    right: -100px;
+    width: 600px; /* Très grand pour un aspect organique */
+    opacity: 0.03; /* Seulement 3% : c'est le secret du luxe */
+    pointer-events: none; /* Pour que Charles puisse cliquer "à travers" */
+    z-index: -1; /* Toujours derrière le texte */
+    transform: rotate(-15deg);
+}
 }
