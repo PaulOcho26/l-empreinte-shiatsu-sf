@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  /* Ta palette Organique */
+  /* Palette Organique */
   --color-zen-sand: #F7F1E8;
   --color-zen-forest: #8A9A5B;
   --color-zen-ink: #2D2926;
 
-  /* Tes Typographies Haute Couture */
+  /* Typographies esth */
   --font-cormorant: "Cormorant Garamond", serif;
   --font-eb-garamond: "EB Garamond", serif;
 }
