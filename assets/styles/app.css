@@ -74,12 +74,13 @@
     /* Signature Lotus en arrière-plan */
 .lotus-watermark {
     position: fixed;
-    bottom: -100px; /* Légèrement coupé par le bord de l'écran */
-    right: -100px;
-    width: 600px; /* Très grand pour un aspect organique */
-    opacity: 0.03; /* Seulement 3% : c'est le secret du luxe */
-    pointer-events: none; /* Pour que Charles puisse cliquer "à travers" */
-    z-index: -1; /* Toujours derrière le texte */
-    transform: rotate(-15deg);
+    top: 50%;         /* On le centre pour le test de visibilité */
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-5deg);
+    width: 500px;
+    opacity: 0.03;    /* 3% seulement : le jury doit le deviner, pas le voir */
+    color: var(--color-zen-forest); /* Votre vert sauge signature */
+    pointer-events: none;
+    z-index: 0;
 }
 }

@@ -1,22 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Reset your password{% endblock %}
+{% block title %}Récupération | L'EMPREINTE{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('reset_password_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
-    <h1>Reset your password</h1>
+<main class="max-w-[1440px] mx-auto px-[150px] pt-40 pb-32 flex justify-center">
+    <div class="w-full max-w-md bg-white/40 backdrop-blur-md p-12 rounded-sm border border-zen-ink/5 shadow-sm text-center">
+        <h1 class="text-4xl font-cormorant italic text-zen-ink mb-8">Récupération</h1>
+        
+        <p class="font-eb-garamond text-sm text-zen-ink/60 mb-10 leading-relaxed italic">
+            Entrez votre adresse email. Un lien de réinitialisation vous sera transmis dans le respect de votre confidentialité.
+        </p>
 
-    {{ form_start(requestForm) }}
-        {{ form_row(requestForm.email) }}
-        <div>
-            <small>
-                Enter your email address, and we will send you a
-                link to reset your password.
-            </small>
-        </div>
+        {{ form_start(requestForm) }}
+            <div class="space-y-8 font-eb-garamond text-left">
+                <div class="space-y-2">
+                    {{ form_label(requestForm.email, 'Votre Email', {'label_attr': {'class': 'block text-[10px] uppercase tracking-[0.3em] text-zen-ink/40 font-medium'}}) }}
+                    {{ form_widget(requestForm.email, {'attr': {'class': 'w-full bg-transparent border-b border-zen-ink/10 py-3 font-eb-garamond text-lg outline-none focus:border-zen-forest transition-all'}}) }}
+                </div>
+            </div>
 
-        <button class="btn btn-primary">Send password reset email</button>
-    {{ form_end(requestForm) }}
+            <div class="mt-12 flex flex-col items-center gap-6">
+                <button type="submit" class="bg-zen-forest text-zen-sand px-12 py-3 uppercase text-[10px] tracking-[0.3em] rounded-full hover:bg-zen-ink transition-all shadow-sm">
+                    Envoyer le lien
+                </button>
+                <a href="{{ path('app_login') }}" class="text-[9px] uppercase tracking-[0.2em] text-zen-ink/40 hover:text-zen-forest transition-colors">Retour à la connexion</a>
+            </div>
+        {{ form_end(requestForm) }}
+    </div>
+</main>
 {% endblock %}
