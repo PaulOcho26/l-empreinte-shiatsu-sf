@@ -6,52 +6,60 @@
 <main class="max-w-[1440px] mx-auto px-[150px] pt-32 pb-32 min-h-screen font-eb-garamond">
     
     <header class="mb-20">
-        <h1 class="text-6xl font-cormorant italic text-zen-ink mb-4">
-            Bonjour, {{ user.firstName }}
-        </h1>
-        <p class="text-zen-ink/50 uppercase tracking-[0.3em] text-xs">
-            Votre chemin de soin et d'équilibre
-        </p>
+        <h1 class="text-6xl font-cormorant italic text-zen-ink mb-4">Bonjour, {{ user.firstName }}</h1>
+        <p class="text-zen-ink/50 uppercase tracking-[0.3em] text-xs">Votre chemin de soin et d'équilibre</p>
     </header>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-start">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-24 items-start">
         
-        {# BLOC 1 : RENDEZ-VOUS #}
+        {# --- SECTION 1 : VOS SÉANCES --- #}
         <section class="space-y-12">
-            <h2 class="text-2xl font-cormorant italic border-b border-zen-ink/5 pb-4">Vos séances</h2>
-            
-            <div class="space-y-8">
+            <h2 class="text-2xl font-cormorant italic border-b border-zen-ink/5 pb-4">Vos rendez-vous</h2>
+            <div class="space-y-6">
                 {% for rdv in appointments %}
-                    <div class="flex gap-8 items-baseline group">
-                        <div class="text-zen-forest font-bold text-lg">
-                            {{ rdv.dateTime|date('d.m.Y') }}
+                    <div class="flex justify-between items-center p-6 bg-white/10 border border-zen-ink/5 rounded-sm">
+                        <div>
+                            <div class="text-zen-forest font-bold">{{ rdv.dateTime|date('d.m.Y à H:i') }}</div>
+                            <div class="text-sm italic text-zen-ink/70">{{ rdv.treatment.title }}</div>
                         </div>
-                        <div class="flex-1">
-                            <div class="text-zen-ink font-medium">{{ rdv.treatment.title }}</div>
-                            <div class="text-xs text-zen-ink/40 tracking-widest mt-1">
-                             {{ rdv.dateTime|date('H:i') }} — 
-                             <span class="italic capitalize">{{ rdv.status|lower }}</span>
-                        </div>
-                        </div>
+                        <div class="text-[10px] uppercase tracking-widest text-zen-ink/40 italic">{{ rdv.status|lower }}</div>
                     </div>
                 {% else %}
-                    <p class="italic text-zen-ink/40">Aucune séance planifiée pour le moment.</p>
-                    <a href="{{ path('app_appointment_new') }}" class="inline-block mt-4 text-zen-forest underline decoration-zen-forest/20 hover:decoration-zen-forest transition-all">
-                        Prendre un premier rendez-vous
-                    </a>
+                    <p class="italic text-zen-ink/30 text-sm">Aucune séance planifiée.</p>
                 {% endfor %}
             </div>
         </section>
 
-        {# BLOC 2 : WALLET & INFOS #}
-        <section class="bg-white/30 backdrop-blur-sm p-12 rounded-sm border border-zen-ink/5">
-            <h2 class="text-[10px] uppercase tracking-[0.4em] text-zen-ink/40 mb-8">Votre Wallet</h2>
-            <div class="text-5xl font-cormorant italic text-zen-forest mb-4">
-                {{ user.wallet }} €
+        {# --- SECTION 2 : L'HISTORIQUE DU DIALOGUE (Synchronicité) --- #}
+        <section class="space-y-12">
+            <h2 class="text-2xl font-cormorant italic border-b border-zen-ink/5 pb-4">Historique de vos échanges</h2>
+            <div class="space-y-10">
+                {% for exchange in exchanges %}
+                    <div class="space-y-4">
+                        {# Votre message #}
+                        <div class="p-6 bg-white/30 border-l-2 border-zen-forest/20 rounded-sm ml-4">
+                            <div class="flex justify-between text-[9px] uppercase tracking-widest text-zen-ink/40 mb-3">
+                                <span>Votre message • {{ exchange.createdAt|date('d.m.Y') }}</span>
+                            </div>
+                            <p class="text-sm italic leading-relaxed">" {{ exchange.message }} "</p>
+                        </div>
+
+                        {# La réponse de Sandrine (si elle existe) #}
+                        {% if exchange.practitionerResponse %}
+                            <div class="p-6 bg-zen-forest/5 border-l-2 border-zen-forest rounded-sm mr-4">
+                                <div class="text-[9px] uppercase tracking-widest text-zen-forest font-bold mb-3 italic">
+                                    L'écho de Sandrine
+                                </div>
+                                <p class="text-sm leading-relaxed text-zen-ink/80">{{ exchange.practitionerResponse }}</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <p class="italic text-zen-ink/30 text-sm text-center py-10 border border-dotted border-zen-ink/10">
+                        Le fil de votre histoire n'a pas encore commencé ici.
+                    </p>
+                {% endfor %}
             </div>
-            <p class="text-sm text-zen-ink/60 leading-relaxed italic">
-                Ce solde est utilisable pour vos prochaines réservations ou vos forfaits de soins.
-            </p>
         </section>
 
     </div>

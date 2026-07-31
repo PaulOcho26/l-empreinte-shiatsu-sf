@@ -3,14 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\TherapeuticExchange;
-use App\Entity\User; // Vital : pour créer le patient
+use App\Entity\User;
 use App\Form\ExchangeType;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface; // Vital : pour le hachage
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class ExchangeController extends AbstractController
@@ -19,31 +19,32 @@ final class ExchangeController extends AbstractController
     public function index(
         Request $request, 
         EntityManagerInterface $entityManager, 
-        UserPasswordHasherInterface $userPasswordHasher
+        UserPasswordHasherInterface $userPasswordHasher,
+        UserRepository $userRepository
     ): Response {
         $exchange = new TherapeuticExchange();
         $form = $this->createForm(ExchangeType::class, $exchange);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // 1. Création de l'utilisateur (le Patient)
-            $user = new User();
-            $user->setEmail($form->get('email')->getData());
-            $user->setFirstName($form->get('firstName')->getData());
-            $user->setLastName($form->get('lastName')->getData());
-            $user->setRoles(['ROLE_USER']);
-            $user->setWallet('0.00');
+            $email = $form->get('email')->getData();
+            $user = $userRepository->findOneBy(['email' => $email]);
 
-            // Hachage sécurisé du mot de passe (Standard professionnel)
-            $hashedPassword = $userPasswordHasher->hashPassword(
-                $user,
-                $form->get('plainPassword')->getData()
-            );
-            $user->setPassword($hashedPassword);
+            if (!$user) {
+                $user = new User();
+                $user->setEmail($email);
+                $user->setFirstName($form->get('firstName')->getData());
+                $user->setLastName($form->get('lastName')->getData());
+                $user->setRoles(['ROLE_USER']);
+                $user->setWallet('0.00');
 
-            $entityManager->persist($user);
+                $user->setPassword($userPasswordHasher->hashPassword($user, $form->get('plainPassword')->getData()));
+                $entityManager->persist($user);
+                $flashMessage = 'Votre espace patient a été créé avec sérénité.';
+            } else {
+                $flashMessage = 'Heureux de vous revoir. Votre message a été ajouté à votre suivi personnel.';
+            }
 
-            // 2. Liaison du message au patient
             $exchange->setPatient($user);
             $exchange->setCreatedAt(new \DateTimeImmutable());
             $exchange->setStatus('EN ATTENTE');
@@ -51,9 +52,10 @@ final class ExchangeController extends AbstractController
             $entityManager->persist($exchange);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Votre espace patient a été créé avec sérénité. Le soin commence.');
+            $this->addFlash('success', $flashMessage);
 
-            return $this->redirectToRoute('app_exchange_init');
+            // REDIRECTION HAUTE COUTURE : Charles arrive directement sur son historique
+            return $this->redirectToRoute('app_member_dashboard');
         }
 
         return $this->render('exchange/index.html.twig', [

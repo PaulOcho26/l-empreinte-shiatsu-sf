@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Messages reçus | Admin{% endblock %}
+
+{% block body %}
+<main class="max-w-[1440px] mx-auto px-[150px] pt-12 pb-32">
+    <h1 class="text-4xl font-cormorant italic text-zen-ink mb-12">Échanges Thérapeutiques</h1>
+
+    <div class="bg-white/30 backdrop-blur-sm rounded-sm border border-zen-ink/5">
+        <table class="w-full font-eb-garamond text-sm text-left">
+            <thead>
+                <tr class="border-b border-zen-ink/10 text-[10px] uppercase tracking-widest text-zen-ink/40">
+                    <th class="px-6 py-4">Date</th>
+                    <th class="px-6 py-4">Patient</th>
+                    <th class="px-6 py-4">Sujet</th>
+                    <th class="px-6 py-4 text-right">Action</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-zen-ink/5">
+                {% for item in echanges %}
+                    <tr class="hover:bg-zen-sand/50 transition-colors">
+                        <td class="px-6 py-4 text-zen-ink/60">{{ item.createdAt|date('d.m.Y H:i') }}</td>
+                        <td class="px-6 py-4 font-bold text-zen-ink">{{ item.patient.firstName }} {{ item.patient.lastName }}</td>
+                        <td class="px-6 py-4 italic">"{{ item.subject }}"</td>
+                        <td class="px-6 py-4 text-right">
+                            <a href="{{ path('app_admin_exchange_show', {'id': item.id}) }}" class="text-zen-forest font-bold underline decoration-zen-forest/20">Lire les mots</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="4" class="px-6 py-12 text-center italic text-zen-ink/40">Aucun message pour le moment.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="mt-16 pt-12 border-t border-zen-ink/10">
+    <h3 class="text-xl font-cormorant italic text-zen-ink mb-6">Votre réponse thérapeutique</h3>
+    <form method="POST" class="space-y-6">
+        <textarea name="reply" rows="6" class="w-full bg-white/50 border border-zen-ink/10 p-6 font-eb-garamond text-lg outline-none focus:border-zen-forest transition-all resize-none" placeholder="Écrivez ici votre écho au message du patient..."></textarea>
+        <button type="submit" class="bg-zen-ink text-zen-sand px-10 py-3 uppercase text-[10px] tracking-widest rounded-full hover:bg-zen-forest transition-all">
+            Envoyer la réponse
+        </button>
+    </form>
+</div>
+</main>
+{% endblock %}

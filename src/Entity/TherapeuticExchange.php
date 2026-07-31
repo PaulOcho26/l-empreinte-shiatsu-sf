@@ -30,6 +30,9 @@ class TherapeuticExchange
     #[ORM\JoinColumn(nullable: false)]
     private ?User $patient = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $practitionerResponse = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -91,6 +94,18 @@ class TherapeuticExchange
     public function setPatient(?User $patient): static
     {
         $this->patient = $patient;
+
+        return $this;
+    }
+
+    public function getPractitionerResponse(): ?string
+    {
+        return $this->practitionerResponse;
+    }
+
+    public function setPractitionerResponse(?string $practitionerResponse): static
+    {
+        $this->practitionerResponse = $practitionerResponse;
 
         return $this;
     }
