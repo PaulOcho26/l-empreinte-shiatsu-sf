@@ -16,34 +16,40 @@ use Symfony\Component\Routing\Attribute\Route;
 final class ExchangeController extends AbstractController
 {
     #[Route('/initier-un-echange', name: 'app_exchange_init')]
+    #[Route('/initier-un-echange', name: 'app_exchange_init')]
     public function index(
-        Request $request, 
-        EntityManagerInterface $entityManager, 
-        UserPasswordHasherInterface $userPasswordHasher
+        Request $request,
+        EntityManagerInterface $entityManager,
+        UserPasswordHasherInterface $userPasswordHasher,
+        \App\Repository\UserRepository $userRepository // Injectez le Repo ici
     ): Response {
         $exchange = new TherapeuticExchange();
         $form = $this->createForm(ExchangeType::class, $exchange);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // 1. Création de l'utilisateur (le Patient)
-            $user = new User();
-            $user->setEmail($form->get('email')->getData());
-            $user->setFirstName($form->get('firstName')->getData());
-            $user->setLastName($form->get('lastName')->getData());
-            $user->setRoles(['ROLE_USER']);
-            $user->setWallet('0.00');
+            $email = $form->get('email')->getData();
 
-            // Hachage sécurisé du mot de passe (Standard professionnel)
-            $hashedPassword = $userPasswordHasher->hashPassword(
-                $user,
-                $form->get('plainPassword')->getData()
-            );
-            $user->setPassword($hashedPassword);
+            // 1. On vérifie si l'utilisateur existe déjà
+            $user = $userRepository->findOneBy(['email' => $email]);
 
-            $entityManager->persist($user);
+            if (!$user) {
+                // 2. S'il n'existe pas, on le crée (Inscription)
+                $user = new User();
+                $user->setEmail($email);
+                $user->setFirstName($form->get('firstName')->getData());
+                $user->setLastName($form->get('lastName')->getData());
+                $user->setRoles(['ROLE_USER']);
+                $user->setWallet('0.00');
+                $user->setPassword($userPasswordHasher->hashPassword($user, $form->get('plainPassword')->getData()));
+                $entityManager->persist($user);
+                $flash = 'Bienvenue. Votre espace patient a été créé.';
+            } else {
+                // 3. S'il existe (Comme Charles), on l'utilise simplement (Reconnaissance)
+                $flash = 'Heureux de vous revoir. Votre message a été ajouté à votre suivi.';
+            }
 
-            // 2. Liaison du message au patient
+            // 4. On lie l'échange au patient (nouveau ou existant)
             $exchange->setPatient($user);
             $exchange->setCreatedAt(new \DateTimeImmutable());
             $exchange->setStatus('EN ATTENTE');
@@ -51,9 +57,8 @@ final class ExchangeController extends AbstractController
             $entityManager->persist($exchange);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Votre espace patient a été créé avec sérénité. Le soin commence.');
-
-            return $this->redirectToRoute('app_exchange_init');
+            $this->addFlash('success', $flash);
+            return $this->redirectToRoute('app_member_dashboard');
         }
 
         return $this->render('exchange/index.html.twig', [

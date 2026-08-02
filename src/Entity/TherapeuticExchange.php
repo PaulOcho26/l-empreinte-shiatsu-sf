@@ -30,6 +30,10 @@ class TherapeuticExchange
     #[ORM\JoinColumn(nullable: false)]
     private ?User $patient = null;
 
+    // LE CHAMP DE RÉPONSE POUR SANDRINE
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $practitionerResponse = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -39,11 +43,9 @@ class TherapeuticExchange
     {
         return $this->subject;
     }
-
     public function setSubject(string $subject): static
     {
         $this->subject = $subject;
-
         return $this;
     }
 
@@ -51,11 +53,9 @@ class TherapeuticExchange
     {
         return $this->message;
     }
-
     public function setMessage(string $message): static
     {
         $this->message = $message;
-
         return $this;
     }
 
@@ -63,11 +63,9 @@ class TherapeuticExchange
     {
         return $this->status;
     }
-
     public function setStatus(string $status): static
     {
         $this->status = $status;
-
         return $this;
     }
 
@@ -75,11 +73,9 @@ class TherapeuticExchange
     {
         return $this->createdAt;
     }
-
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 
@@ -87,11 +83,20 @@ class TherapeuticExchange
     {
         return $this->patient;
     }
-
     public function setPatient(?User $patient): static
     {
         $this->patient = $patient;
+        return $this;
+    }
 
+    // MÉTHODES POUR LA RÉPONSE (Indispensables pour le Controller)
+    public function getPractitionerResponse(): ?string
+    {
+        return $this->practitionerResponse;
+    }
+    public function setPractitionerResponse(?string $practitionerResponse): static
+    {
+        $this->practitionerResponse = $practitionerResponse;
         return $this;
     }
 }

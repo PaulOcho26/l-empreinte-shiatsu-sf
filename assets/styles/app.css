@@ -1,23 +1,23 @@
 @import "tailwindcss";
 
 @theme {
-  /* Palette Organique */
-  --color-zen-sand: #F7F1E8;
-  --color-zen-forest: #8A9A5B;
-  --color-zen-ink: #2D2926;
+    /* Palette Organique */
+    --color-zen-sand: #f7f1e8;
+    --color-zen-forest: #8a9a5b;
+    --color-zen-ink: #2d2926;
 
-  /* Typographies esth */
-  --font-cormorant: "Cormorant Garamond", serif;
-  --font-eb-garamond: "EB Garamond", serif;
+    /* Typographies esth */
+    --font-cormorant: "Cormorant Garamond", serif;
+    --font-eb-garamond: "EB Garamond", serif;
 }
 
 /* On force le style de base conforme à ton ADN */
 @layer base {
-  body {
-    background-color: var(--color-zen-sand);
-    color: var(--color-zen-ink);
-    -webkit-font-smoothing: antialiased;
-  }
+    body {
+        background-color: var(--color-zen-sand);
+        color: var(--color-zen-ink);
+        -webkit-font-smoothing: antialiased;
+    }
 }
 /* 1. Le mot souligné : on utilise 'inline' pour ne pas casser l'interligne du paragraphe */
 .lexicon-trigger {
@@ -25,7 +25,7 @@
     border-bottom: 1px dotted var(--color-zen-forest);
     cursor: pointer;
     position: relative;
-    display: inline; 
+    display: inline;
 }
 
 /* 2. La bulle de définition : cachée par défaut */
@@ -45,11 +45,13 @@
     line-height: 1.4;
     text-align: center;
     border-radius: 4px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
     border: 1px solid rgba(138, 154, 91, 0.1);
     z-index: 50;
     opacity: 0;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
     pointer-events: none; /* Empêche la bulle de gêner la souris */
 }
 
@@ -72,14 +74,16 @@
     transform: translateX(-50%) translateY(-10px);
 
     /* Signature Lotus en arrière-plan */
-.lotus-watermark {
-    position: fixed;
-    bottom: -100px; /* Légèrement coupé par le bord de l'écran */
-    right: -100px;
-    width: 600px; /* Très grand pour un aspect organique */
-    opacity: 0.03; /* Seulement 3% : c'est le secret du luxe */
-    pointer-events: none; /* Pour que Charles puisse cliquer "à travers" */
-    z-index: -1; /* Toujours derrière le texte */
-    transform: rotate(-15deg);
-}
+    /* Signature Lotus unique et définitive */
+    .lotus-watermark {
+        position: fixed;
+        bottom: -100px;
+        right: -100px;
+        width: 600px;
+        opacity: 0.03;
+        pointer-events: none;
+        z-index: -1;
+        transform: rotate(-15deg);
+        color: var(--color-zen-forest);
+    }
 }

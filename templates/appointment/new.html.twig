@@ -23,10 +23,11 @@
                     
                     {# Sélecteur de Prestation - Rendu manuel pour le style #}
                     <div class="space-y-2">
-                        {{ form_label(form.treatment, null, {'label_attr': {'class': 'block text-[10px] uppercase tracking-[0.3em] text-zen-ink/40 font-medium'}}) }}
-                        <div class="relative">
-                            {{ form_widget(form.treatment, {'attr': {'class': 'w-full bg-transparent border-b border-zen-ink/10 py-3 font-eb-garamond text-lg outline-none focus:border-zen-forest transition-all appearance-none'}}) }}
-                            <span class="absolute right-0 bottom-4 pointer-events-none text-zen-ink/20 text-xs">▼</span>
+                        {{ form_widget(form.treatment, {
+    'attr': {
+        'class': 'w-full bg-transparent border-b border-zen-ink/10 py-3 font-eb-garamond text-lg outline-none focus:border-zen-forest transition-all appearance-none'
+    }
+}) }}
                         </div>
                     </div>
 

@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Échanges Patients | Admin
+{% endblock %}
+
+{% block body %}
+	<main class="max-w-[1440px] mx-auto px-[150px] pt-20 pb-32">
+		<header class="mb-16">
+			<h1 class="text-4xl font-cormorant italic text-zen-ink leading-tight">Échanges Thérapeutiques</h1>
+			<p class="font-eb-garamond text-sm text-zen-ink/40 uppercase tracking-widest mt-2">Recueillir et répondre aux intentions de soin</p>
+		</header>
+
+		<div class="bg-white/30 backdrop-blur-sm rounded-sm border border-zen-ink/5 overflow-hidden">
+			<table class="w-full font-eb-garamond text-left border-collapse">
+				<thead>
+					<tr class="text-[10px] uppercase tracking-[0.2em] text-zen-ink/40 border-b border-zen-ink/5">
+						<th class="px-8 py-6 font-medium">Date</th>
+						<th class="px-8 py-6 font-medium">Patient</th>
+						<th class="px-8 py-6 font-medium">Sujet de la démarche</th>
+						<th class="px-8 py-6 font-medium">Statut</th>
+						<th class="px-8 py-6 text-right">Action</th>
+					</tr>
+				</thead>
+				<tbody class="divide-y divide-zen-ink/5">
+					{% for item in echanges %}
+						<tr class="hover:bg-zen-sand/50 transition-colors group">
+							<td class="px-8 py-6 text-zen-ink/60 text-sm">{{ item.createdAt|date('d.m.Y H:i') }}</td>
+							<td class="px-8 py-6 font-bold text-zen-ink">{{ item.patient.firstName }}
+								{{ item.patient.lastName }}</td>
+							<td class="px-8 py-6 italic text-zen-ink/80">{{ item.subject }}</td>
+							<td class="px-8 py-6">
+								<span class="text-[9px] px-3 py-1 rounded-full uppercase tracking-widest {{ item.status == 'TRAITÉ' ? 'bg-zen-forest/10 text-zen-forest' : 'bg-zen-ink/5 text-zen-ink/40' }}">
+									{{ item.status|lower }}
+								</span>
+							</td>
+							<td class="px-8 py-6 text-right">
+								<a href="{{ path('app_admin_exchange_show', {'id': item.id}) }}" class="text-zen-forest font-bold underline decoration-zen-forest/20 hover:decoration-zen-forest transition-all text-xs uppercase tracking-widest">Lire les mots</a>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="5" class="px-8 py-20 text-center italic text-zen-ink/30">Le fil des échanges est encore vierge.</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</main>
+{% endblock %}

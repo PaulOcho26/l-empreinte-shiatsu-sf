@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Répondre au patient | Admin
+{% endblock %}
+
+{% block body %}
+	<main class="max-w-[1440px] mx-auto px-[150px] pt-20 pb-32">
+		<header class="mb-12">
+			<a href="{{ path('app_admin_exchange_index') }}" class="text-[9px] uppercase tracking-[0.3em] text-zen-ink/40 hover:text-zen-forest transition-colors">← Retour à la liste</a>
+		</header>
+
+		<div class="max-w-3xl mx-auto bg-white/40 backdrop-blur-md p-20 rounded-sm border border-zen-ink/5 shadow-2xl">
+			<div class="flex justify-between items-baseline mb-16 border-b border-zen-ink/5 pb-8">
+				<h2 class="text-3xl font-cormorant italic text-zen-ink">{{ echange.patient.firstName }}
+					{{ echange.patient.lastName }}</h2>
+				<p class="font-eb-garamond italic text-zen-ink/40">{{ echange.createdAt|date('d F Y') }}</p>
+			</div>
+
+			<div class="space-y-12">
+				<section>
+					<h3 class="text-[10px] uppercase tracking-[0.4em] text-zen-forest font-bold mb-4">Sujet :
+						{{ echange.subject }}</h3>
+					<div class="font-eb-garamond text-xl text-zen-ink/80 leading-relaxed italic text-justify">
+						"
+						{{ echange.message }}
+						"
+					</div>
+				</section>
+
+				{# FORMULAIRE DE RÉPONSE #}
+				<section class="mt-20 pt-12 border-t border-zen-ink/10">
+					<h3 class="text-lg font-cormorant italic text-zen-ink mb-8">Votre écho thérapeutique</h3>
+					<form method="POST" class="space-y-8">
+						<textarea name="reply" rows="6" required class="w-full bg-white/50 border border-zen-ink/10 p-8 font-eb-garamond text-lg outline-none focus:border-zen-forest transition-all resize-none" placeholder="Partagez ici vos premiers conseils ou votre ressenti..."></textarea>
+						<div class="flex justify-end">
+							<button type="submit" class="bg-zen-ink text-zen-sand px-12 py-4 rounded-full uppercase text-[10px] tracking-[0.3em] hover:bg-zen-forest transition-all">
+								Transmettre ma réponse
+							</button>
+						</div>
+					</form>
+				</section>
+			</div>
+		</div>
+	</main>
+{% endblock %}
