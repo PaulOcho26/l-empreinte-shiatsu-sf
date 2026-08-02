@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+<<<<<<< HEAD
 {% block title %}Répondre au patient | Admin
 {% endblock %}
 
@@ -43,3 +44,56 @@
 		</div>
 	</main>
 {% endblock %}
+=======
+{% block title %}Lecture de l'échange | Admin{% endblock %}
+
+{% block body %}
+<main class="max-w-[1440px] mx-auto px-[150px] pt-20 pb-32">
+    {# Retour #}
+    <header class="mb-16">
+        <a href="{{ path('app_admin_exchange_index') }}" class="text-[10px] uppercase tracking-widest text-zen-ink/40 hover:text-zen-forest transition-colors">
+            ← Retour aux échanges
+        </a>
+    </header>
+
+    <div class="max-w-3xl mx-auto bg-white/40 backdrop-blur-md p-20 rounded-sm border border-zen-ink/5 shadow-2xl relative">
+        
+        {# En-tête de la lettre #}
+        <div class="flex justify-between items-start mb-16 border-b border-zen-ink/5 pb-8">
+            <div>
+                <p class="text-[10px] uppercase tracking-widest text-zen-ink/40 mb-2">Patient</p>
+                <h2 class="text-2xl font-cormorant italic text-zen-ink">
+                    {{ echange.patient.firstName }} {{ echange.patient.lastName }}
+                </h2>
+            </div>
+            <div class="text-right">
+                <p class="text-[10px] uppercase tracking-widest text-zen-ink/40 mb-2">Date de réception</p>
+                <p class="font-eb-garamond italic text-zen-ink/60">
+                    {{ echange.createdAt|date('d F Y à H:i') }}
+                </p>
+            </div>
+        </div>
+
+        {# Corps du message #}
+        <div class="space-y-8">
+            <div>
+                <p class="text-[10px] uppercase tracking-widest text-zen-forest font-bold mb-4">Sujet de la démarche</p>
+                <h3 class="text-3xl font-cormorant italic text-zen-ink">{{ echange.subject }}</h3>
+            </div>
+
+            <div class="pt-8">
+                <p class="text-[10px] uppercase tracking-widest text-zen-ink/40 mb-6">Mots du patient</p>
+                <div class="font-eb-garamond text-xl text-zen-ink/80 leading-relaxed text-justify whitespace-pre-line italic">
+                    " {{ echange.message }} "
+                </div>
+            </div>
+        </div>
+
+        {# Filigrane discret en fond de carte #}
+        <div class="absolute bottom-8 right-8 opacity-[0.03] pointer-events-none">
+            <h4 class="text-6xl font-cormorant italic">L'Empreinte</h4>
+        </div>
+    </div>
+</main>
+{% endblock %}
+>>>>>>> 3b09bb96ba0f2c63dead8eb7bf8237a8951f3c19

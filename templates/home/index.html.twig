@@ -19,9 +19,11 @@
         </p>
 
         <div class="flex gap-4 justify-center">
-            <a href="#" class="bg-[#2D2926] text-[#F7F1E8] px-8 py-4 rounded-full uppercase tracking-widest text-xs font-bold hover:bg-[#8A9A5B] transition-all">
-                Découvrir les soins
-            </a>
+            {# Correction du lien : on utilise la route app_soins_public créée hier #}
+       <a href="{{ path('app_soins_public') }}" 
+       class="inline-block bg-zen-ink text-zen-sand px-10 py-3 rounded-full uppercase tracking-[0.4em] text-[9px] font-bold hover:bg-zen-forest transition-all shadow-sm">
+       Découvrir les soins
+       </a>
         </div>
     </div>
 

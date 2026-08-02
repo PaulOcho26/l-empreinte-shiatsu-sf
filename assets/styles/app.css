@@ -11,7 +11,7 @@
     --font-eb-garamond: "EB Garamond", serif;
 }
 
-/* On force le style de base conforme à ton ADN */
+/* Base */
 @layer base {
     body {
         background-color: var(--color-zen-sand);
@@ -19,7 +19,8 @@
         -webkit-font-smoothing: antialiased;
     }
 }
-/* 1. Le mot souligné : on utilise 'inline' pour ne pas casser l'interligne du paragraphe */
+
+/* Lexique : Le mot souligné */
 .lexicon-trigger {
     color: var(--color-zen-forest);
     border-bottom: 1px dotted var(--color-zen-forest);
@@ -28,14 +29,14 @@
     display: inline;
 }
 
-/* 2. La bulle de définition : cachée par défaut */
+/* La bulle de définition */
 .lexicon-bubble {
     visibility: hidden;
     position: absolute;
-    bottom: 150%; /* Positionnée au dessus du mot */
+    bottom: 150%;
     left: 50%;
     transform: translateX(-50%);
-    width: 320px; /* Largeur fixe pour éviter les bulles trop fines */
+    width: 320px;
     padding: 20px;
     background-color: white;
     color: var(--color-zen-ink);
@@ -52,10 +53,10 @@
     transition:
         opacity 0.3s ease,
         transform 0.3s ease;
-    pointer-events: none; /* Empêche la bulle de gêner la souris */
+    pointer-events: none;
 }
 
-/* 3. La petite flèche sous la bulle */
+/* La petite flèche sous la bulle */
 .lexicon-bubble::after {
     content: "";
     position: absolute;
@@ -67,23 +68,9 @@
     border-color: white transparent transparent transparent;
 }
 
-/* 4. L'affichage au survol */
+/* L'affichage au survol */
 .lexicon-trigger:hover .lexicon-bubble {
     visibility: visible;
     opacity: 1;
     transform: translateX(-50%) translateY(-10px);
-
-    /* Signature Lotus en arrière-plan */
-    /* Signature Lotus unique et définitive */
-    .lotus-watermark {
-        position: fixed;
-        bottom: -100px;
-        right: -100px;
-        width: 600px;
-        opacity: 0.03;
-        pointer-events: none;
-        z-index: -1;
-        transform: rotate(-15deg);
-        color: var(--color-zen-forest);
-    }
 }

@@ -4,33 +4,22 @@
 {% endblock %}
 
 {% block body %}
-	<main
-		class="max-w-[1440px] mx-auto px-[150px] pt-32 pb-32 min-h-screen font-eb-garamond">
+	<main class="max-w-[1440px] mx-auto px-[150px] pt-32 pb-32 min-h-screen font-eb-garamond">
 
-		{# EN-TÊTE PERSONNALISÉ #}
 		<header class="mb-20">
-			<h1 class="text-6xl font-cormorant italic text-zen-ink mb-4">
-				Bonjour,
-				{{ user.firstName }}
-			</h1>
-			<p class="text-zen-ink/50 uppercase tracking-[0.3em] text-xs">
-				Votre chemin de soin et d'équilibre
-			</p>
+			<h1 class="text-6xl font-cormorant italic text-zen-ink mb-4">Bonjour,
+				{{ user.firstName }}</h1>
+			<p class="text-zen-ink/50 uppercase tracking-[0.3em] text-xs">Votre chemin de soin et d'équilibre</p>
 		</header>
 
-		<div
-			class="grid grid-cols-1 md:grid-cols-2 gap-24 items-start">
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-24 items-start">
 
-			{# BLOC 1 : VOS SÉANCES (Triées par date) #}
 			<section class="space-y-12">
 				<h2 class="text-2xl font-cormorant italic border-b border-zen-ink/5 pb-4 text-zen-ink">Vos séances</h2>
-
 				<div class="space-y-8">
 					{% for rdv in appointments %}
 						<div class="flex gap-8 items-baseline group">
-							<div class="text-zen-forest font-bold text-lg">
-								{{ rdv.dateTime|date('d.m.Y') }}
-							</div>
+							<div class="text-zen-forest font-bold text-lg">{{ rdv.dateTime|date('d.m.Y') }}</div>
 							<div class="flex-1 border-b border-zen-ink/5 pb-4">
 								<div class="text-zen-ink font-medium">{{ rdv.treatment.title }}</div>
 								<div class="text-[10px] text-zen-ink/40 uppercase tracking-widest mt-1">
@@ -41,60 +30,43 @@
 							</div>
 						</div>
 					{% else %}
-						<p class="italic text-zen-ink/40">Aucune séance planifiée pour le moment.</p>
-						<a href="{{ path('app_appointment_new') }}" class="inline-block mt-4 text-zen-forest underline decoration-zen-forest/20 hover:decoration-zen-forest transition-all">
-							Prendre un premier rendez-vous
-						</a>
+						<p class="italic text-zen-ink/40">Aucune séance planifiée.</p>
 					{% endfor %}
 				</div>
 			</section>
 
-			<div
-				class="space-y-20">
-				{# BLOC 2 : WALLET #}
-				<section class="bg-white/30 backdrop-blur-sm p-12 rounded-sm border border-zen-ink/5 shadow-sm">
+			<div class="space-y-20">
+				<section class="bg-white/30 backdrop-blur-sm p-12 rounded-sm border border-zen-ink/5">
 					<h2 class="text-[10px] uppercase tracking-[0.4em] text-zen-ink/40 mb-8">Votre Wallet</h2>
-					<div class="text-5xl font-cormorant italic text-zen-forest mb-4">
-						{{ user.wallet }}
-						€
-					</div>
-					<p class="text-sm text-zen-ink/60 leading-relaxed italic">
-						Ce solde est utilisable pour vos prochaines réservations ou vos forfaits de soins.
-					</p>
+					<div class="text-5xl font-cormorant italic text-zen-forest mb-4">{{ user.wallet }}
+						€</div>
 				</section>
 
-				{# BLOC 3 : FIL DE SYNCHRONICITÉ (Échanges) #}
 				<section class="space-y-10">
 					<h2 class="text-2xl font-cormorant italic border-b border-zen-ink/5 pb-4 text-zen-ink">Vos échanges</h2>
-
 					<div class="space-y-10">
 						{% for exchange in exchanges %}
-							<div
-								class="space-y-4">
-								{# Message envoyé par Charles #}
-								<div class="p-6 bg-white/20 border-l-2 border-zen-forest/20 rounded-sm ml-6 shadow-sm">
+							<div class="space-y-4">
+								<div class="p-6 bg-white/20 border-l-2 border-zen-forest/20 rounded-sm ml-6">
 									<p class="text-[9px] uppercase tracking-widest text-zen-ink/30 mb-2">Votre message •
 										{{ exchange.createdAt|date('d.m.Y') }}</p>
-									<p class="text-sm italic text-zen-ink/70 leading-relaxed">"
+									<p class="text-sm italic text-zen-ink/70">"
 										{{ exchange.message }}
 										"</p>
 								</div>
-
-								{# Réponse de Sandrine #}
 								{% if exchange.practitionerResponse %}
 									<div class="p-6 bg-zen-forest/5 border-l-2 border-zen-forest rounded-sm mr-6">
 										<p class="text-[9px] uppercase tracking-widest text-zen-forest font-bold mb-2">L'écho de Sandrine</p>
-										<p class="text-sm text-zen-ink/90 leading-relaxed">{{ exchange.practitionerResponse }}</p>
+										<p class="text-sm text-zen-ink/90">{{ exchange.practitionerResponse }}</p>
 									</div>
 								{% endif %}
 							</div>
 						{% else %}
-							<p class="italic text-zen-ink/30 text-sm">Le fil de votre histoire n'a pas encore commencé ici.</p>
+							<p class="italic text-zen-ink/30 text-sm">Le fil de votre histoire est vierge.</p>
 						{% endfor %}
 					</div>
 				</section>
 			</div>
-
 		</div>
 	</main>
 {% endblock %}

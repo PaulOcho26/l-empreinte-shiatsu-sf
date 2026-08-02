@@ -3,25 +3,24 @@
 namespace App\Controller;
 
 use App\Entity\TherapeuticExchange;
-use App\Entity\User; // Vital : pour créer le patient
+use App\Entity\User;
 use App\Form\ExchangeType;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface; // Vital : pour le hachage
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class ExchangeController extends AbstractController
 {
     #[Route('/initier-un-echange', name: 'app_exchange_init')]
-    #[Route('/initier-un-echange', name: 'app_exchange_init')]
     public function index(
         Request $request,
         EntityManagerInterface $entityManager,
         UserPasswordHasherInterface $userPasswordHasher,
-        \App\Repository\UserRepository $userRepository // Injectez le Repo ici
+        UserRepository $userRepository
     ): Response {
         $exchange = new TherapeuticExchange();
         $form = $this->createForm(ExchangeType::class, $exchange);
@@ -29,12 +28,9 @@ final class ExchangeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $email = $form->get('email')->getData();
-
-            // 1. On vérifie si l'utilisateur existe déjà
             $user = $userRepository->findOneBy(['email' => $email]);
 
             if (!$user) {
-                // 2. S'il n'existe pas, on le crée (Inscription)
                 $user = new User();
                 $user->setEmail($email);
                 $user->setFirstName($form->get('firstName')->getData());
@@ -43,13 +39,11 @@ final class ExchangeController extends AbstractController
                 $user->setWallet('0.00');
                 $user->setPassword($userPasswordHasher->hashPassword($user, $form->get('plainPassword')->getData()));
                 $entityManager->persist($user);
-                $flash = 'Bienvenue. Votre espace patient a été créé.';
+                $flash = 'Bienvenue. Votre espace patient a été créé avec sérénité.';
             } else {
-                // 3. S'il existe (Comme Charles), on l'utilise simplement (Reconnaissance)
-                $flash = 'Heureux de vous revoir. Votre message a été ajouté à votre suivi.';
+                $flash = 'Heureux de vous revoir. Votre message a été ajouté à votre suivi personnel.';
             }
 
-            // 4. On lie l'échange au patient (nouveau ou existant)
             $exchange->setPatient($user);
             $exchange->setCreatedAt(new \DateTimeImmutable());
             $exchange->setStatus('EN ATTENTE');

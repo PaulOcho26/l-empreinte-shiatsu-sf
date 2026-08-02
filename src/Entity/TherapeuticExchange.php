@@ -30,7 +30,6 @@ class TherapeuticExchange
     #[ORM\JoinColumn(nullable: false)]
     private ?User $patient = null;
 
-    // LE CHAMP DE RÉPONSE POUR SANDRINE
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $practitionerResponse = null;
 
@@ -89,7 +88,6 @@ class TherapeuticExchange
         return $this;
     }
 
-    // MÉTHODES POUR LA RÉPONSE (Indispensables pour le Controller)
     public function getPractitionerResponse(): ?string
     {
         return $this->practitionerResponse;
