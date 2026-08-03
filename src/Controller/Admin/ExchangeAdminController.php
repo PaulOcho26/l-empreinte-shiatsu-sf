@@ -26,6 +26,7 @@ class ExchangeAdminController extends AbstractController
     #[Route('/{id}', name: 'app_admin_exchange_show', methods: ['GET', 'POST'])]
     public function show(Request $request, TherapeuticExchange $echange, EntityManagerInterface $em): Response
     {
+        // Logique de réponse de Sandrine
         if ($request->isMethod('POST')) {
             $responseText = $request->request->get('reply');
             $echange->setPractitionerResponse($responseText);
