@@ -2,42 +2,35 @@
 
 namespace App\Controller;
 
+use App\Repository\ArticleRepository;
 use App\Service\LexiconLinker;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Repository\ArticleRepository;
 
-final class SanctuaryController extends AbstractController
+#[Route('/sanctuaire')]
+class SanctuaryController extends AbstractController
 {
-    #[Route('/sanctuaire/le-shiatsu', name: 'app_sanctuary_article')]
-    public function index(LexiconLinker $linker): Response
+    #[Route('', name: 'app_sanctuary_index')]
+    public function index(ArticleRepository $repo, LexiconLinker $linker): Response 
     {
-        // Texte issu du site réel de Sandrine (Exemple)
-        // Dans src/Controller/SanctuaryController.php
-
-$content = "Le Shiatsu est bien plus qu'une technique de massage ; c'est une discipline énergétique japonaise qui s'appuie sur une vision Holistique de l'être humain. En exerçant des pressions sur des points précis, le praticien permet de libérer le Qi et de rétablir son flux harmonieux à travers les Méridiens. Cette pratique millénaire vise à stimuler les capacités d'auto-guérison du corps, en traitant non seulement le symptôme, mais la racine profonde du déséquilibre.";
-
-        // On utilise notre service pour "linker" les mots automatiquement
-        $linkedContent = $linker->linkTerms($content);
+        // Le texte pilier du cabinet
+        $introText = "Le Shiatsu est bien plus qu'une technique de massage ; c'est une discipline énergétique japonaise qui s'appuie sur une vision Holistique de l'être humain. En exerçant des pressions sur des points précis, le praticien permet de libérer le Qi et de rétablir son flux harmonieux à travers les Méridiens. Cette pratique millénaire vise à stimuler les capacités d'auto-guérison du corps, en traitant non seulement le symptôme, mais la racine profonde du déséquilibre.";
 
         return $this->render('sanctuary/index.html.twig', [
-            'content' => $linkedContent,
+            'articles' => $repo->findBy(['isPublished' => true]),
+            'introLinked' => $linker->linkTerms($introText) 
         ]);
     }
 
-    #[Route('/sanctuaire/article/{slug}', name: 'app_sanctuary_show')]
-public function show(string $slug, \App\Repository\ArticleRepository $articleRepo, \App\Service\LexiconLinker $linker): Response
-{
-    $article = $articleRepo->findOneBy(['slug' => $slug]);
-
-    if (!$article) {
-        throw $this->createNotFoundException('Cet article est en cours de rédaction dans le Sanctuaire.');
-    }
-
+    #[Route('/{slug}', name: 'app_sanctuary_show')]
+    public function show(string $slug, ArticleRepository $repo, LexiconLinker $linker): Response {
+    $article = $repo->findOneBy(['slug' => $slug]);
+    if (!$article) throw $this->createNotFoundException();
+    
     return $this->render('sanctuary/show.html.twig', [
         'article' => $article,
-        'content' => $linker->linkTerms($article->getContent()),
+        'content' => $linker->linkTerms($article->getContent()), // Active les liens Lexique
     ]);
 }
 }

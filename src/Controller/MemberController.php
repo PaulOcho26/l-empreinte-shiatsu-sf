@@ -16,19 +16,18 @@ final class MemberController extends AbstractController
 {
     #[Route('', name: 'app_member_dashboard')]
     public function index(
-        AppointmentRepository $appointmentRepository,
-        TherapeuticExchangeRepository $exchangeRepository
-    ): Response {
-        /** @var User $user */
-        $user = $this->getUser();
+    TherapeuticExchangeRepository $exchangeRepository, 
+    AppointmentRepository $appointmentRepository
+): Response {
+    $user = $this->getUser();
+    $exchanges = $exchangeRepository->findBy(['patient' => $user], ['createdAt' => 'DESC']);
+    $appointments = $appointmentRepository->findBy(['patient' => $user], ['dateTime' => 'ASC']);
 
-        $appointments = $appointmentRepository->findBy(['patient' => $user], ['dateTime' => 'ASC']);
-        $exchanges = $exchangeRepository->findBy(['patient' => $user], ['createdAt' => 'DESC']);
+    return $this->render('member/index.html.twig', [
+        'user' => $user,
+        'exchanges' => $exchanges,
+        'appointments' => $appointments,
+    ]);
 
-        return $this->render('member/index.html.twig', [
-            'user' => $user,
-            'appointments' => $appointments,
-            'exchanges' => $exchanges,
-        ]);
     }
 }

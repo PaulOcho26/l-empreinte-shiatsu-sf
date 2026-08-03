@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Le Lexique du Soin | L'EMPREINTE{% endblock %}
+
+{% block body %}
+<main class="max-w-[1440px] mx-auto px-[150px] pt-32 pb-32 min-h-screen">
+    
+    <header class="text-center mb-24">
+        <span class="text-[10px] uppercase tracking-[0.4em] text-zen-forest font-bold">Sagesse Millénaire</span>
+        <h1 class="text-6xl font-cormorant italic text-zen-ink mt-4">Dictionnaire du Soin</h1>
+        <div class="h-px w-24 bg-zen-forest mx-auto mt-8 opacity-30"></div>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+        {% for lexicon in lexicons %}
+            <a href="{{ path('app_lexicon_show', {slug: lexicon.slug}) }}" 
+               class="group p-10 bg-white/10 border border-zen-ink/5 hover:border-zen-forest/30 transition-all duration-500 flex flex-col justify-between aspect-square">
+                
+                <div>
+                    <h2 class="text-3xl font-cormorant italic text-zen-ink group-hover:text-zen-forest transition-colors mb-4">
+                        {{ lexicon.term }}
+                    </h2>
+                    <p class="font-eb-garamond text-sm text-zen-ink/60 leading-relaxed line-clamp-4 italic">
+                        {{ lexicon.definition }}
+                    </p>
+                </div>
+
+                <div class="mt-8">
+                    <span class="text-[9px] uppercase tracking-widest text-zen-forest font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                        Explorer l'essence →
+                    </span>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}

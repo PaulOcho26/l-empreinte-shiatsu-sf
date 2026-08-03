@@ -1,34 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Le Shiatsu | Le Sanctuaire{% endblock %}
+{% block title %}Le Sanctuaire | L'Empreinte Shiatsu{% endblock %}
 
 {% block body %}
-<main class="max-w-[1440px] mx-auto px-[150px] pt-32 pb-32">
-    
-    <article class="max-w-4xl mx-auto">
-        {# En-tête de l'article #}
-    <header class="mb-16">
-        <p class="text-xs uppercase tracking-[0.4em] text-zen-forest font-medium mb-2">
-        Le Sanctuaire
-        </p>
-        <p class="text-sm italic text-zen-ink/60 font-eb-garamond tracking-wide mb-4">
-        Trois millénaires d'unité au service du vivant
-        </p>
-        <h1 class="text-6xl font-cormorant italic text-zen-ink leading-tight">
-        Le Shiatsu, <br> l'art du toucher
-        </h1>
-    </header>
+<main class="bg-zen-sand min-h-screen pt-32 pb-20 px-6">
+    <div class="max-w-[1140px] mx-auto text-center mb-24">
+        <span class="text-[10px] uppercase tracking-[0.4em] text-zen-forest font-bold">Espace de Transmission</span>
+        <h1 class="font-cormorant text-6xl lg:text-7xl text-zen-ink italic mt-4">Le Sanctuaire</h1>
+        <div class="h-px w-24 bg-zen-forest mx-auto mt-8 opacity-30"></div>
+    </div>
 
-        {# Corps de texte avec Lettrine et Lexique #}
-        {# first-letter: gère la lettrine automatique en CSS #}
-        <div class="font-eb-garamond text-xl text-zen-ink/80 leading-relaxed text-justify 
-                    first-letter:text-7xl first-letter:font-cormorant first-letter:italic 
-                    first-letter:text-zen-forest first-letter:mr-3 first-letter:float-left">
-            
-            {{ content|raw }}
-            
-        </div>
-    </article>
+    {# BLOC INTRODUCTIF INTERACTIF AJOUTÉ #}
+    <div class="max-w-3xl mx-auto mb-32 font-eb-garamond text-xl text-zen-ink/80 leading-relaxed text-justify italic">
+        {{ introLinked|raw }}
+    </div>
 
+    <div class="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-32">
+        {% for article in articles %}
+            <article class="group {{ loop.index is even ? 'md:mt-24' : '' }}">
+                <div class="block overflow-hidden bg-zen-ink/5 aspect-[4/5] mb-8">
+                    <img src="{{ asset('images/articles/' ~ (article.imagePath ?: 'default-sanctuary.jpg')) }}" 
+                         alt="{{ article.title }}" 
+                         class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 group-hover:scale-105">
+                </div>
+                <div class="{{ loop.index is even ? 'text-right' : '' }}">
+                    <p class="text-[10px] uppercase tracking-widest text-zen-ink/40 mb-2">{{ article.createdAt|date('d . m . Y') }} — {{ article.category }}</p>
+                    <h2 class="font-cormorant text-3xl text-zen-ink italic mb-4 group-hover:text-zen-forest transition-colors">{{ article.title }}</h2>
+                    <p class="font-eb-garamond text-zen-ink/60 leading-relaxed mb-6 line-clamp-3 italic">{{ article.content|striptags|slice(0, 150) }}...</p>
+                    <a href="{{ path('app_sanctuary_show', {slug: article.slug}) }}" class="inline-block border-b border-zen-forest/20 pb-1 text-[10px] uppercase tracking-widest font-bold text-zen-forest hover:border-zen-forest transition-all">Lire l'enseignement</a>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
 </main>
 {% endblock %}

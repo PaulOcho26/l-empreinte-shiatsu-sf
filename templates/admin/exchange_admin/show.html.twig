@@ -1,99 +1,26 @@
 {% extends 'base.html.twig' %}
-
-<<<<<<< HEAD
-{% block title %}Répondre au patient | Admin
-{% endblock %}
-
-{% block body %}
-	<main class="max-w-[1440px] mx-auto px-[150px] pt-20 pb-32">
-		<header class="mb-12">
-			<a href="{{ path('app_admin_exchange_index') }}" class="text-[9px] uppercase tracking-[0.3em] text-zen-ink/40 hover:text-zen-forest transition-colors">← Retour à la liste</a>
-		</header>
-
-		<div class="max-w-3xl mx-auto bg-white/40 backdrop-blur-md p-20 rounded-sm border border-zen-ink/5 shadow-2xl">
-			<div class="flex justify-between items-baseline mb-16 border-b border-zen-ink/5 pb-8">
-				<h2 class="text-3xl font-cormorant italic text-zen-ink">{{ echange.patient.firstName }}
-					{{ echange.patient.lastName }}</h2>
-				<p class="font-eb-garamond italic text-zen-ink/40">{{ echange.createdAt|date('d F Y') }}</p>
-			</div>
-
-			<div class="space-y-12">
-				<section>
-					<h3 class="text-[10px] uppercase tracking-[0.4em] text-zen-forest font-bold mb-4">Sujet :
-						{{ echange.subject }}</h3>
-					<div class="font-eb-garamond text-xl text-zen-ink/80 leading-relaxed italic text-justify">
-						"
-						{{ echange.message }}
-						"
-					</div>
-				</section>
-
-				{# FORMULAIRE DE RÉPONSE #}
-				<section class="mt-20 pt-12 border-t border-zen-ink/10">
-					<h3 class="text-lg font-cormorant italic text-zen-ink mb-8">Votre écho thérapeutique</h3>
-					<form method="POST" class="space-y-8">
-						<textarea name="reply" rows="6" required class="w-full bg-white/50 border border-zen-ink/10 p-8 font-eb-garamond text-lg outline-none focus:border-zen-forest transition-all resize-none" placeholder="Partagez ici vos premiers conseils ou votre ressenti..."></textarea>
-						<div class="flex justify-end">
-							<button type="submit" class="bg-zen-ink text-zen-sand px-12 py-4 rounded-full uppercase text-[10px] tracking-[0.3em] hover:bg-zen-forest transition-all">
-								Transmettre ma réponse
-							</button>
-						</div>
-					</form>
-				</section>
-			</div>
-		</div>
-	</main>
-{% endblock %}
-=======
 {% block title %}Lecture de l'échange | Admin{% endblock %}
-
 {% block body %}
 <main class="max-w-[1440px] mx-auto px-[150px] pt-20 pb-32">
-    {# Retour #}
     <header class="mb-16">
-        <a href="{{ path('app_admin_exchange_index') }}" class="text-[10px] uppercase tracking-widest text-zen-ink/40 hover:text-zen-forest transition-colors">
-            ← Retour aux échanges
-        </a>
+        <a href="{{ path('app_admin_exchange_index') }}" class="text-xs uppercase tracking-widest text-zen-ink/50 hover:text-zen-forest italic">← Retour aux échanges</a>
+        <h1 class="text-5xl font-cormorant italic text-zen-ink mt-8">Échange avec {{ echange.patient.firstName }} {{ echange.patient.lastName }}</h1>
     </header>
 
-    <div class="max-w-3xl mx-auto bg-white/40 backdrop-blur-md p-20 rounded-sm border border-zen-ink/5 shadow-2xl relative">
-        
-        {# En-tête de la lettre #}
-        <div class="flex justify-between items-start mb-16 border-b border-zen-ink/5 pb-8">
-            <div>
-                <p class="text-[10px] uppercase tracking-widest text-zen-ink/40 mb-2">Patient</p>
-                <h2 class="text-2xl font-cormorant italic text-zen-ink">
-                    {{ echange.patient.firstName }} {{ echange.patient.lastName }}
-                </h2>
-            </div>
-            <div class="text-right">
-                <p class="text-[10px] uppercase tracking-widest text-zen-ink/40 mb-2">Date de réception</p>
-                <p class="font-eb-garamond italic text-zen-ink/60">
-                    {{ echange.createdAt|date('d F Y à H:i') }}
-                </p>
-            </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-20">
+        <div class="bg-white/30 p-10 border border-zen-ink/5">
+            <p class="text-[10px] uppercase tracking-widest text-zen-ink/40 mb-4 italic">Message du patient • {{ echange.createdAt|date('d/m/Y') }}</p>
+            <h3 class="text-xl font-cormorant mb-4 text-zen-ink italic">Sujet : {{ echange.subject }}</h3>
+            <p class="font-eb-garamond text-lg text-zen-ink leading-relaxed">"{{ echange.message }}"</p>
         </div>
 
-        {# Corps du message #}
-        <div class="space-y-8">
-            <div>
-                <p class="text-[10px] uppercase tracking-widest text-zen-forest font-bold mb-4">Sujet de la démarche</p>
-                <h3 class="text-3xl font-cormorant italic text-zen-ink">{{ echange.subject }}</h3>
-            </div>
-
-            <div class="pt-8">
-                <p class="text-[10px] uppercase tracking-widest text-zen-ink/40 mb-6">Mots du patient</p>
-                <div class="font-eb-garamond text-xl text-zen-ink/80 leading-relaxed text-justify whitespace-pre-line italic">
-                    " {{ echange.message }} "
-                </div>
-            </div>
-        </div>
-
-        {# Filigrane discret en fond de carte #}
-        <div class="absolute bottom-8 right-8 opacity-[0.03] pointer-events-none">
-            <h4 class="text-6xl font-cormorant italic">L'Empreinte</h4>
+        <div class="bg-zen-sand/50 p-10 border border-zen-forest/20">
+            <h3 class="font-cormorant italic text-2xl text-zen-forest mb-6">Votre Réponse Thérapeutique</h3>
+            <form method="post">
+                <textarea name="reply" rows="6" class="w-full bg-white/50 border-none p-6 font-eb-garamond text-lg focus:ring-1 focus:ring-zen-forest outline-none mb-6" placeholder="Partagez vos conseils ici...">{{ echange.practitionerResponse }}</textarea>
+                <button type="submit" class="bg-zen-forest text-white px-8 py-4 text-[10px] uppercase tracking-widest font-bold hover:bg-zen-ink transition-colors">Transmettre la réponse</button>
+            </form>
         </div>
     </div>
 </main>
 {% endblock %}
->>>>>>> 3b09bb96ba0f2c63dead8eb7bf8237a8951f3c19

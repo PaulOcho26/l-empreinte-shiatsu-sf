@@ -1,17 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ article.title }} | L'EMPREINTE{% endblock %}
-
 {% block body %}
-<main class="max-w-[1440px] mx-auto px-[150px] pt-32 pb-32 min-h-screen">
-    <article class="max-w-3xl mx-auto">
-        <header class="mb-16">
-            <p class="text-[10px] uppercase tracking-[0.4em] text-zen-forest font-medium mb-4">Le Sanctuaire</p>
-            <h1 class="text-6xl font-cormorant italic text-zen-ink leading-tight">{{ article.title }}</h1>
-            <div class="h-[0.5px] w-48 bg-zen-forest/20 mt-8"></div>
+<main class="bg-zen-sand min-h-screen pt-32 pb-32 px-6">
+    <article class="max-w-[800px] mx-auto">
+        <header class="mb-16 text-center">
+            <span class="text-[10px] uppercase tracking-[0.4em] text-zen-forest font-bold">{{ article.category }}</span>
+            <h1 class="text-6xl font-cormorant italic text-zen-ink mt-4">{{ article.title }}</h1>
         </header>
 
-        <div class="font-eb-garamond text-xl text-zen-ink/80 leading-relaxed text-justify first-letter:text-7xl first-letter:font-cormorant first-letter:italic first-letter:text-zen-forest first-letter:mr-3 first-letter:float-left">
+        <div class="font-eb-garamond text-xl text-zen-ink/80 leading-relaxed text-justify 
+                    first-letter:text-7xl first-letter:font-cormorant first-letter:italic 
+                    first-letter:text-zen-forest first-letter:mr-3 first-letter:float-left">
             {{ content|raw }}
         </div>
     </article>

@@ -21,20 +21,25 @@ class AppointmentRepository extends ServiceEntityRepository
      * Prend en compte la durée du soin + 15 min de "respiration"
      */
     public function isSlotAvailable(\DateTimeInterface $requestedStart, int $durationMinutes): bool
-    {
-        // On calcule la fin (Soin + 15 min de respiration)
-        $requestedEnd = (clone $requestedStart)->modify('+' . ($durationMinutes + 15) . ' minutes');
+{
+    // On crée un objet DateTime mutable pour éviter les erreurs d'interface
+    $start = \DateTime::createFromInterface($requestedStart);
+    
+    // Calcul de la fin (Soin + 15 min de respiration)
+    $requestedEnd = (clone $start)->modify('+' . ($durationMinutes + 15) . ' minutes');
 
-        $qb = $this->createQueryBuilder('a')
-            ->select('COUNT(a.id)')
-            ->where('a.dateTime < :requestedEnd') // CORRECTION : dateTime
-            ->andWhere('a.dateTime > :bufferStart') // CORRECTION : dateTime
-            ->setParameter('requestedEnd', $requestedEnd)
-            ->setParameter('bufferStart', (clone $requestedStart)->modify('-90 minutes'))
-            ->getQuery();
+    // Marge de sécurité de 90 min avant (préparation du cabinet)
+    $bufferStart = (clone $start)->modify('-90 minutes');
 
-        $count = $qb->getSingleScalarResult();
+    $qb = $this->createQueryBuilder('a')
+        ->select('COUNT(a.id)')
+        ->where('a.dateTime < :requestedEnd')
+        ->andWhere('a.dateTime > :bufferStart')
+        ->setParameters([
+            'requestedEnd' => $requestedEnd,
+            'bufferStart' => $bufferStart,
+        ]);
 
-        return (int)$count === 0;
-    }
+    return (int) $qb->getQuery()->getSingleScalarResult() === 0;
+}
 }

@@ -11,24 +11,26 @@ class LexiconLinker
     }
 
     public function linkTerms(string $text): string
-    {
-        $terms = $this->lexiconRepository->findAll();
+{
+    $terms = $this->lexiconRepository->findAll();
 
-        foreach ($terms as $lexicon) {
-            $term = $lexicon->getTerm();
-            $definition = htmlspecialchars($lexicon->getDefinition());
+    foreach ($terms as $lexicon) {
+        $term = $lexicon->getTerm();
+        $slug = $lexicon->getSlug(); // On récupère le slug pour le lien
+        $definition = htmlspecialchars($lexicon->getDefinition());
 
-            // Structure sans l'attribut 'title' pour éviter les '...' du navigateur
-            $replacement = sprintf(
-                '<span class="lexicon-trigger">%s<span class="lexicon-bubble">%s</span></span>',
-                $term,
-                $definition
-            );
+        // Remplacement par un lien interactif (A) au lieu d'un simple SPAN
+        $replacement = sprintf(
+            '<a href="/lexique/%s" class="lexicon-trigger group relative border-b border-dotted border-zen-forest">%s<span class="lexicon-bubble">%s</span></a>',
+            $slug,
+            $term,
+            $definition
+        );
 
-            // Remplacement du mot exact, insensible à la casse
-            $text = preg_replace('/\b' . preg_quote($term, '/') . '\b/i', $replacement, $text);
-        }
+        $text = preg_replace('/\b' . preg_quote($term, '/') . '\b/i', $replacement, $text);
+    }
 
-        return $text;
+    return $text;
+
     }
 }

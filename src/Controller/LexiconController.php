@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/admin/lexique')]
 final class LexiconController extends AbstractController
 {
-    #[Route(name: 'app_lexicon_index', methods: ['GET'])]
+    #[Route(name: 'app_admin_lexicon_index', methods: ['GET'])]
     public function index(LexiconRepository $lexiconRepository): Response
     {
         return $this->render('lexicon/index.html.twig', [
@@ -42,7 +42,7 @@ final class LexiconController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_lexicon_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_admin_lexicon_show', methods: ['GET'])]
     public function show(Lexicon $lexicon): Response
     {
         return $this->render('lexicon/show.html.twig', [

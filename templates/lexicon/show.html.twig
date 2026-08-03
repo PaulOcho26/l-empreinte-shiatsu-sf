@@ -1,34 +1,46 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Lexicon{% endblock %}
+{% block title %}{{ lexicon.term }} | L'Empreinte Shiatsu{% endblock %}
 
 {% block body %}
-    <h1>Lexicon</h1>
+<main class="bg-zen-sand min-h-screen pt-32 pb-20 px-6">
+    <div class="max-w-6xl mx-auto">
+        {# Fil d'Ariane Minimaliste #}
+        <div class="mb-16">
+            <a href="{{ path('app_lexicon_index') }}" class="group inline-flex items-center text-zen-ink/60 hover:text-zen-forest transition-colors uppercase tracking-widest text-xs font-body font-bold">
+                <span class="mr-2 transform group-hover:-translate-x-2 transition-transform">←</span> 
+                Retour au dictionnaire du soin
+            </a>
+        </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ lexicon.id }}</td>
-            </tr>
-            <tr>
-                <th>Term</th>
-                <td>{{ lexicon.term }}</td>
-            </tr>
-            <tr>
-                <th>Slug</th>
-                <td>{{ lexicon.slug }}</td>
-            </tr>
-            <tr>
-                <th>Definition</th>
-                <td>{{ lexicon.definition }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <div class="flex flex-col md:flex-row gap-12 lg:gap-24">
+            {# Bloc Gauche : Le Titre (Chicane Haute) #}
+            <div class="md:w-1/3">
+                <h1 class="font-cormorant text-6xl lg:text-8xl text-zen-forest italic leading-none sticky top-32">
+                    {{ lexicon.term }}
+                </h1>
+            </div>
 
-    <a href="{{ path('app_lexicon_index') }}">back to list</a>
+            {# Bloc Droit : La Définition (Chicane Basse) #}
+            <div class="md:w-2/3 md:mt-24">
+                <div class="bg-white/20 backdrop-blur-sm border border-zen-ink/5 p-8 lg:p-16 shadow-sm">
+                    <p class="font-eb-garamond text-xl lg:text-2xl text-zen-ink leading-relaxed first-letter:text-5xl first-letter:font-cormorant first-letter:text-zen-forest first-letter:mr-3">
+                        {{ lexicon.definition }}
+                    </p>
 
-    <a href="{{ path('app_lexicon_edit', {'id': lexicon.id}) }}">edit</a>
+                    <div class="mt-16 h-px w-full bg-zen-ink/10"></div>
 
-    {{ include('lexicon/_delete_form.html.twig') }}
+                    <div class="mt-12 flex flex-col sm:flex-row justify-between items-center gap-8">
+                        <p class="font-cormorant italic text-zen-ink/70 text-lg">
+                            "Le geste juste naît de la compréhension."
+                        </p>
+                        <a href="{{ path('app_appointment_new') }}" class="px-8 py-4 bg-zen-forest text-white font-eb-garamond uppercase tracking-[0.2em] text-xs hover:bg-zen-ink transition-all duration-500 font-bold">
+                            Réserver un soin
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
 {% endblock %}
