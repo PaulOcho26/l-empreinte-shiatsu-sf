@@ -1,27 +1,70 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tableau de Bord | L'EMPREINTE
-{% endblock %}
+{% block title %}Tableau de Bord | L'EMPREINTE{% endblock %}
 
 {% block body %}
-	<main class="max-w-[1440px] mx-auto px-[150px] pt-20 pb-32">
-		<h1 class="text-5xl font-cormorant italic text-zen-ink mb-16">Espace de Pilotage</h1>
+<main class="max-w-[1440px] mx-auto px-[150px] pt-20 pb-32">
+    <h1 class="text-5xl font-cormorant italic text-zen-ink mb-16">Espace de Pilotage</h1>
 
-		<div class="grid grid-cols-2 gap-12">
-			<a href="{{ path('app_treatment_index') }}" class="group p-12 bg-white/30 backdrop-blur-md border border-zen-ink/5 rounded-sm hover:border-zen-forest/40 transition-all">
-				<h2 class="text-2xl font-cormorant italic text-zen-ink group-hover:text-zen-forest mb-4">Le Catalogue</h2>
-				<p class="font-eb-garamond text-zen-ink/60 italic">Gérer vos prestations, tarifs et durées de soin.</p>
-			</a>
+    {# 1. LES BOUTONS DE NAVIGATION RAPIDE #}
+    <div class="grid grid-cols-3 gap-8 mb-20">
+        <a href="{{ path('app_treatment_index') }}" class="group p-8 bg-white/30 backdrop-blur-md border border-zen-ink/5 rounded-sm hover:border-zen-forest/40 transition-all">
+            <h2 class="text-xl font-cormorant italic text-zen-ink group-hover:text-zen-forest mb-2">Le Catalogue</h2>
+            <p class="text-xs font-eb-garamond text-zen-ink/60 italic">Prestations et tarifs.</p>
+        </a>
 
-			<a href="{{ path('app_lexicon_index') }}" class="group p-12 bg-white/30 backdrop-blur-md border border-zen-ink/5 rounded-sm hover:border-zen-forest/40 transition-all">
-				<h2 class="text-2xl font-cormorant italic text-zen-ink group-hover:text-zen-forest mb-4">Le Lexique</h2>
-				<p class="font-eb-garamond text-zen-ink/60 italic">Enrichir les termes techniques du Sanctuaire.</p>
-			</a>
+        <a href="{{ path('app_lexicon_index') }}" class="group p-8 bg-white/30 backdrop-blur-md border border-zen-ink/5 rounded-sm hover:border-zen-forest/40 transition-all">
+            <h2 class="text-xl font-cormorant italic text-zen-ink group-hover:text-zen-forest mb-2">Le Lexique</h2>
+            <p class="text-xs font-eb-garamond text-zen-ink/60 italic">Termes techniques.</p>
+        </a>
 
-			<a href="{{ path('app_admin_exchange_index') }}" class="group p-12 bg-white/30 backdrop-blur-md border border-zen-ink/5 rounded-sm hover:border-zen-forest/40 transition-all">
-				<h2 class="text-2xl font-cormorant italic text-zen-ink group-hover:text-zen-forest mb-4">Messages Patients</h2>
-				<p class="font-eb-garamond text-zen-ink/60 italic">Recueillir les mots et intentions de vos patients avant le soin.</p>
-			</a>
-		</div>
-	</main>
+        <a href="{{ path('app_admin_exchange_index') }}" class="group p-8 bg-white/30 backdrop-blur-md border border-zen-ink/5 rounded-sm hover:border-zen-forest/40 transition-all">
+            <h2 class="text-xl font-cormorant italic text-zen-ink group-hover:text-zen-forest mb-2">Messages</h2>
+            <p class="text-xs font-eb-garamond text-zen-ink/60 italic">Intentions des patients.</p>
+        </a>
+    </div>
+
+    {# 2. LA LISTE DES RENDEZ-VOUS (C'est ce qui te manquait) #}
+    <div class="space-y-8">
+        <h2 class="text-3xl font-cormorant italic text-zen-ink border-b border-zen-ink/10 pb-4">Demandes de Synchronicité</h2>
+        
+        <div class="bg-white/40 backdrop-blur-md border border-zen-ink/5 rounded-sm overflow-hidden shadow-xl">
+            <table class="w-full text-left font-eb-garamond">
+                <thead class="bg-zen-ink/5 text-[10px] uppercase tracking-[0.2em] text-zen-ink/40">
+                    <tr>
+                        <th class="px-8 py-5">Date & Heure</th>
+                        <th class="px-8 py-5">Patient</th>
+                        <th class="px-8 py-5">Soin</th>
+                        <th class="px-8 py-5">Statut</th>
+                        <th class="px-8 py-5 text-right">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-zen-ink/5">
+                    {% for rdv in appointments %}
+                        <tr class="hover:bg-white/60 transition-colors">
+                            <td class="px-8 py-5 font-bold text-zen-ink">{{ rdv.dateTime|date('d/m à H:i') }}</td>
+                            <td class="px-8 py-5 italic text-zen-ink/80">{{ rdv.patient.firstName }} {{ rdv.patient.lastName }}</td>
+                            <td class="px-8 py-5 text-xs text-zen-forest uppercase tracking-widest">{{ rdv.treatment.title }}</td>
+                            <td class="px-8 py-5">
+                                <span class="px-3 py-1 rounded-full text-[9px] font-bold {{ rdv.status == 'EN ATTENTE' ? 'bg-zen-sand text-zen-ink' : 'bg-zen-forest/20 text-zen-forest' }}">
+                                    {{ rdv.status }}
+                                </span>
+                            </td>
+                            <td class="px-8 py-5 text-right">
+                                {# On redirige vers l'échange pour répondre au patient #}
+                                <a href="{{ path('app_admin_exchange_index') }}" class="text-zen-forest font-bold underline decoration-zen-forest/20 hover:text-zen-ink text-[10px] uppercase tracking-widest">
+                                    Gérer l'échange
+                                </a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="px-8 py-20 text-center italic text-zen-ink/30">Aucun rendez-vous à l'horizon.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
 {% endblock %}

@@ -20,26 +20,22 @@ class AppointmentRepository extends ServiceEntityRepository
      * LOGIQUE MÉTIER : Vérifie si un créneau est libre
      * Prend en compte la durée du soin + 15 min de "respiration"
      */
-    public function isSlotAvailable(\DateTimeInterface $requestedStart, int $durationMinutes): bool
+    public function isSlotAvailable(\DateTimeInterface $requestedDate, int $duration): bool
 {
-    // On crée un objet DateTime mutable pour éviter les erreurs d'interface
-    $start = \DateTime::createFromInterface($requestedStart);
-    
-    // Calcul de la fin (Soin + 15 min de respiration)
-    $requestedEnd = (clone $start)->modify('+' . ($durationMinutes + 15) . ' minutes');
+    $requestedEnd = (clone $requestedDate)->modify('+' . $duration . ' minutes');
+    $bufferStart = (clone $requestedDate)->modify('-15 minutes');
 
-    // Marge de sécurité de 90 min avant (préparation du cabinet)
-    $bufferStart = (clone $start)->modify('-90 minutes');
+    /** @var \Doctrine\ORM\QueryBuilder $qb */
+    $qb = $this->createQueryBuilder('a');
 
-    $qb = $this->createQueryBuilder('a')
-        ->select('COUNT(a.id)')
-        ->where('a.dateTime < :requestedEnd')
-        ->andWhere('a.dateTime > :bufferStart')
-        ->setParameters([
-            'requestedEnd' => $requestedEnd,
-            'bufferStart' => $bufferStart,
-        ]);
+    $qb->select('COUNT(a.id)')
+       ->where('a.dateTime < :requestedEnd')
+       ->andWhere('a.dateTime > :bufferStart')
+       ->setParameter('requestedEnd', $requestedEnd)
+       ->setParameter('bufferStart', $bufferStart);
 
-    return (int) $qb->getQuery()->getSingleScalarResult() === 0;
+    $count = $qb->getQuery()->getSingleScalarResult();
+
+    return (int) $count === 0;
 }
 }

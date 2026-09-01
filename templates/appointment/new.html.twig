@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 {% block title %}Réserver un instant | L'EMPREINTE{% endblock %}
+
 {% block body %}
-<main class="max-w-[1440px] mx-auto px-[150px] pt-32 pb-32 min-h-screen font-eb-garamond">
+<main class="max-w-[1440px] mx-auto px-6 md:px-[150px] pt-32 pb-32 min-h-screen font-eb-garamond bg-zen-sand">
     <div class="flex flex-col md:flex-row gap-24 items-start">
+        
         {# BLOC 1 : L'Intention (Gauche) #}
-        <div class="md:w-1/3 space-y-12">
+        <div class="w-full md:w-1/3 space-y-12">
             <header>
                 <h1 class="text-6xl font-cormorant italic text-zen-ink leading-tight mb-4">
                     <span class="text-zen-forest text-7xl">R</span>éserver un instant
@@ -13,31 +15,93 @@
             </header>
             <div class="space-y-6">
                 <p class="text-xl italic text-zen-ink/60">Définir l'intention de votre soin</p>
-                {{ form_start(form, {'attr': {'class': 'space-y-10'}}) }}
+                
+                {{ form_start(form, {'attr': {'class': 'space-y-10', 'id': 'form-appointment'}}) }}
                     <div class="space-y-2">
+                        <label class="text-[10px] uppercase tracking-[0.3em] text-zen-ink/40 font-medium">Le rituel choisi</label>
                         {{ form_widget(form.treatment, {'attr': {'class': 'w-full bg-transparent border-b border-zen-ink/10 py-3 font-eb-garamond text-lg outline-none focus:border-zen-forest appearance-none'}}) }}
                     </div>
+                    
                     <div class="pt-12 space-y-4">
-                        <p class="text-[10px] uppercase tracking-[0.3em] text-zen-ink/40 font-medium">L'Ancrage horaire</p>
-                        {{ form_widget(form.date_time, {'attr': {'class': 'w-full bg-transparent border-b border-zen-ink/10 py-3 font-eb-garamond text-lg outline-none'}}) }}
+                        <p class="text-[10px] uppercase tracking-[0.3em] text-zen-ink/40 font-medium">L'Ancrage horaire sélectionné</p>
+                        {# On laisse le widget, mais il sera rempli par le clic sur la grille à droite #}
+                        {{ form_widget(form.date_time, {'attr': {
+                            'class': 'w-full bg-transparent border-b border-zen-ink/10 py-3 font-eb-garamond text-lg outline-none',
+                            'readonly': 'readonly'
+                        }}) }}
                     </div>
+
                     <div class="pt-16">
-                        <button type="submit" class="bg-zen-forest text-zen-sand px-12 py-4 uppercase text-[10px] tracking-[0.3em] rounded-full hover:bg-zen-ink transition-all shadow-md">
+                        <button type="submit" class="w-full bg-zen-forest text-zen-sand px-12 py-4 uppercase text-[10px] tracking-[0.3em] rounded-full hover:bg-zen-ink transition-all shadow-md">
                             Confirmer mon engagement
                         </button>
                     </div>
                 {{ form_end(form) }}
             </div>
         </div>
+
         {# BLOC 2 : L'Horizon Temporel (Droite) #}
-        <div class="md:w-2/3 bg-white/40 backdrop-blur-md p-12 rounded-sm border border-zen-ink/5 shadow-xl flex justify-center sticky top-32">
-            <div class="text-center space-y-8">
-                <p class="font-cormorant italic text-3xl text-zen-ink">Sélectionner une date</p>
-                <div class="p-8 border border-dotted border-zen-forest/20 rounded-full w-72 h-72 flex items-center justify-center mx-auto bg-zen-sand/20 italic text-zen-forest text-[10px] tracking-widest uppercase">
-                    Utilisez le champ <br> à gauche pour <br> valider l'heure
-                </div>
+        <div class="w-full md:w-2/3 bg-white/40 backdrop-blur-md p-8 md:p-12 rounded-2xl border border-zen-ink/5 shadow-xl sticky top-32">
+            <h3 class="font-cormorant italic text-3xl text-zen-ink text-center mb-12">Instants de Synchronicité</h3>
+            
+            {# Grille défilante des 10 jours #}
+            <div class="flex overflow-x-auto gap-8 pb-10 scrollbar-hide snap-x">
+                {% for day in calendar %}
+                    <div class="flex-none w-32 snap-center text-center">
+                        <div class="mb-8">
+                            <span class="block text-[10px] uppercase tracking-[0.4em] text-zen-ink/30 mb-1">{{ day.date|date('D')|trans }}</span>
+                            <span class="block text-2xl font-serif italic text-zen-ink">{{ day.date|date('d M') }}</span>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            {% for slot in day.slots %}
+                                <button 
+                                    type="button"
+                                    class="w-full py-3 text-[10px] font-bold tracking-[0.2em] rounded-full border transition-all duration-300
+                                    {{ slot.available 
+                                        ? 'border-zen-forest/30 text-zen-forest hover:bg-zen-forest hover:text-zen-sand slot-btn' 
+                                        : 'border-zen-ink/5 text-zen-ink/20 cursor-not-allowed line-through' }}"
+                                    {% if not slot.available %}disabled{% endif %}
+                                    data-full-date="{{ slot.full|date('Y-m-d H:i') }}"
+                                    onclick="selectInstant(this, '{{ slot.full|date('Y-m-d H:i') }}')">
+                                    {{ slot.time }}
+                                </button>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="mt-8 pt-8 border-t border-zen-ink/5 text-center">
+                <p class="text-[10px] uppercase tracking-widest text-zen-ink/30 italic">
+                    Chaque soin est séparé par 15 minutes de respiration pour garantir le calme du sanctuaire.
+                </p>
             </div>
         </div>
     </div>
 </main>
+
+<script>
+    function selectInstant(button, datetime) {
+        // 1. On remplit le champ caché du formulaire Symfony
+        // Note : Vérifie l'ID exact généré par Symfony dans ton inspecteur (souvent appointment_date_time)
+        const dateInput = document.querySelector('input[type="datetime-local"]') || document.querySelector('[id$="date_time"]');
+        if(dateInput) {
+            dateInput.value = datetime;
+        }
+
+        // 2. Animation visuelle de sélection
+        document.querySelectorAll('.slot-btn').forEach(btn => {
+            btn.classList.remove('bg-zen-ink', 'text-zen-sand', 'border-zen-ink');
+            btn.classList.add('border-zen-forest/30', 'text-zen-forest');
+        });
+        button.classList.remove('border-zen-forest/30', 'text-zen-forest');
+        button.classList.add('bg-zen-ink', 'text-zen-sand', 'border-zen-ink');
+    }
+</script>
+
+<style>
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
 {% endblock %}

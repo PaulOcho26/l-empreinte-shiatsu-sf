@@ -27,29 +27,49 @@
         </div>
     </div>
 
-    {# Section Nos Protocoles (Dynamique depuis la BDD) #}
-    <section class="w-full max-w-6xl py-20 border-t border-[#2D2926]/10">
-        <h2 class="text-3xl font-serif italic mb-22">Nos Protocoles de soin</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 text-left">
-            {% for treatment in treatments %}
-                <div class="space-y-4">
-                    <div class="aspect-square bg-[#F0E6D9] rounded-2xl overflow-hidden">
-                        {# L'image viendra ici plus tard #}
+    {# Section Nos Protocoles - Version Chirurgicale #}
+    <section style="width: 100%; padding: 100px 0; border-top: 1px solid rgba(45,41,38,0.1);">
+    <h2 style="font-family: serif; font-style: italic; text-align: center; margin-bottom: 100px; color: #2D2926; font-size: 2.5rem;">Nos Protocoles de soin</h2>
+
+    <div style="max-width: 1100px; margin: 0 auto; padding: 0 40px;">
+        {% for treatment in treatments %}
+            <article style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 120px; gap: 80px; flex-direction: {{ loop.index is even ? 'row-reverse' : 'row' }};">
+                
+                {# BLOC IMAGE : Propre, sans bandes, avec ombre portée #}
+                <div style="width: 50%; flex-shrink: 0;">
+                    {# L'ombre est ici renforcée avec une opacité de 0.15 sur la couleur zen-ink #}
+                    <div style="aspect-ratio: 4/3; border-radius: 30px; overflow: hidden; box-shadow: 0 20px 40px rgba(45, 41, 38, 0.15); background-color: white;">
+                        {% if treatment.imagePath %}
+                            <img src="{{ asset('images/treatments/' ~ treatment.imagePath) }}" 
+                                 alt="{{ treatment.title }}" 
+                                 style="width: 100%; height: 100%; object-fit: cover; display: block; border: none;">
+                        {% endif %}
                     </div>
-                    <h3 class="text-2xl font-serif italic">{{ treatment.title }}</h3>
-                    <p class="text-sm uppercase tracking-widest opacity-60">
-                        {{ treatment.duration }} min — {{ treatment.price }} €
+                </div>
+
+                {# BLOC TEXTE : Aligné et élégant #}
+                <div style="width: 50%; text-align: left;">
+                    <h3 style="font-size: 2.2rem; font-family: serif; font-style: italic; margin-bottom: 20px; color: #2D2926; line-height: 1.2;">
+                        {{ treatment.title }}
+                    </h3>
+                    
+                    <p style="font-family: 'EB Garamond', serif; font-size: 1.2rem; font-style: italic; color: #2D2926; opacity: 0.7; line-height: 1.7; margin-bottom: 25px;">
+                        {{ treatment.protocolBenefits|default('Retrouvez un équilibre profond grâce à ce soin traditionnel ciblé.') }}
                     </p>
-                    <a href="#" class="inline-block border-b border-[#2D2926] pb-1 text-sm uppercase tracking-widest hover:text-[#8A9A5B] hover:border-[#8A9A5B] transition-all">
+
+                    <div style="font-size: 0.75rem; letter-spacing: 0.3em; font-weight: bold; color: rgba(45,41,38,0.5); text-transform: uppercase; margin-bottom: 30px;">
+                        {{ treatment.duration }} MIN &nbsp;&nbsp; — &nbsp;&nbsp; {{ treatment.price }} €
+                    </div>
+
+                    <a href="{{ path('app_soins_public') }}" 
+                       style="display: inline-block; border-bottom: 2px solid #8A9A5B; text-decoration: none; color: #2D2926; font-size: 0.65rem; letter-spacing: 0.4em; font-weight: bold; text-transform: uppercase; padding-bottom: 5px;">
                         S'offrir ce soin
                     </a>
                 </div>
-            {% else %}
-                <p>Aucun protocole n'est encore disponible dans le sanctuaire.</p>
-            {% endfor %}
-        </div>
-    </section>
 
+            </article>
+        {% endfor %}
+    </div>
+</section>
 </main>
 {% endblock %}
