@@ -1,6 +1,8 @@
 FROM dunglas/frankenphp:1-php8.4
 
-# Installation des extensions PHP nécessaires pour Symfony et PostgreSQL
+WORKDIR /app
+
+# Extensions PHP nécessaires à Symfony et PostgreSQL
 RUN install-php-extensions \
     pdo_pgsql \
     intl \
@@ -8,12 +10,5 @@ RUN install-php-extensions \
     zip \
     opcache
 
-    FROM dunglas/frankenphp:1-php8.4
-
-RUN install-php-extensions \
-    pdo_pgsql \
-    intl \
-    gd
-
-# AJOUTEZ CETTE LIGNE ICI :
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Installation de Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
