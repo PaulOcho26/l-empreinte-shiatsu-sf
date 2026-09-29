@@ -1,111 +1,135 @@
 {% extends 'base.html.twig' %}
-{% block title %}Réserver un instant | L'EMPREINTE
-{% endblock %}
+
+{% block title %}Réserver un instant | L'EMPREINTE{% endblock %}
 
 {% block body %}
-	<main class="max-w-[1440px] mx-auto px-6 md:px-[150px] pt-32 pb-32 min-h-screen font-eb-garamond bg-zen-sand text-zen-ink">
-		<div
-			class="flex flex-col md:flex-row gap-24 items-start">
+<main class="max-w-[1440px] mx-auto px-6 md:px-[150px] pt-32 pb-32 min-h-screen font-eb-garamond bg-zen-sand text-zen-ink">
+    <div class="flex flex-col md:flex-row gap-24 items-start">
 
-			{# BLOC 1 : L'Intention (Gauche) #}
-			<div class="w-full md:w-1/3 space-y-12">
-				<header>
-					<h1 class="text-6xl font-cormorant italic leading-tight mb-4">
-						<span class="text-zen-forest text-7xl">R</span>éserver un instant
-					</h1>
-					<div class="h-[0.5px] w-full bg-zen-forest/30"></div>
-				</header>
-				<div class="space-y-6">
-					<p class="text-xl italic opacity-60">Définir l'intention de votre soin</p>
+        {# BLOC 1 : L'Intention (Gauche) #}
+        <div class="w-full md:w-1/3 space-y-12">
+            <header>
+                <h1 class="text-6xl font-cormorant italic leading-tight mb-4">
+                    <span class="text-zen-forest text-7xl">R</span>éserver un instant
+                </h1>
+                <div class="h-[0.5px] w-full bg-zen-forest/30"></div>
+            </header>
 
-					{{ form_start(form, {'attr': {'class': 'space-y-10'}}) }}
-					<div class="space-y-2">
-						<label class="text-[10px] uppercase tracking-[0.3em] opacity-40 font-medium">Le rituel choisi</label>
-						{{ form_widget(form.treatment, {'attr': {'class': 'w-full bg-transparent border-b border-zen-ink/10 py-3 outline-none focus:border-zen-forest appearance-none'}}) }}
-					</div>
+            <div class="space-y-6">
+                <p class="text-xl italic opacity-60">Définir l'intention de votre soin</p>
 
-					<div class="pt-12 space-y-4">
-						<p class="text-[10px] uppercase tracking-[0.3em] opacity-40 font-medium">L'Ancrage horaire sélectionné</p>
-						{# On force le style pour éviter le "calendrier noir" du navigateur #}
-						{{ form_widget(form.date_time, {'attr': {
-                            'class': 'w-full bg-transparent border-b border-zen-ink/10 py-3 outline-none',
-                            'readonly': 'readonly',
-                            'style': 'color: inherit;'
-                        }}) }}
-					</div>
+                {{ form_start(form, {'attr': {'class': 'space-y-10', 'id': 'form-appointment'}}) }}
 
-					<div class="pt-16">
-						<button type="submit" class="w-full bg-zen-forest text-zen-sand px-12 py-4 uppercase text-[10px] tracking-[0.3em] rounded-full hover:bg-zen-ink transition-all shadow-md">
-							Confirmer mon engagement
-						</button>
-					</div>
-					{{ form_end(form) }}
-				</div>
-			</div>
+                <div class="space-y-2">
+                    <label class="text-[10px] uppercase tracking-[0.3em] opacity-40 font-medium">
+                        Le rituel choisi
+                    </label>
+                    {{ form_widget(form.treatment, {'attr': {
+                        'class': 'w-full bg-transparent border-b border-zen-ink/10 py-3 font-eb-garamond text-lg outline-none focus:border-zen-forest appearance-none'
+                    }}) }}
+                </div>
 
-			{# BLOC 2 : L'Horizon Temporel (Droite) #}
-			<div class="w-full md:w-2/3 bg-white/40 backdrop-blur-md p-8 md:p-12 rounded-2xl border border-zen-ink/5 shadow-xl sticky top-32">
-				<h3 class="font-cormorant italic text-3xl text-center mb-12">Instants de Synchronicité</h3>
+                <div class="pt-12 space-y-4">
+                    <p class="text-[10px] uppercase tracking-[0.3em] opacity-40 font-medium">
+                        L'Ancrage horaire sélectionné
+                    </p>
+                    {{ form_widget(form.date_time, {'attr': {
+                        'class': 'w-full bg-transparent border-b border-zen-ink/10 py-3 font-eb-garamond text-lg outline-none',
+                        'readonly': 'readonly',
+                        'style': 'color: inherit;'
+                    }}) }}
+                </div>
 
-				<div class="flex overflow-x-auto gap-8 pb-10 scrollbar-hide snap-x">
-					{% if calendar is defined and calendar is not empty %}
-						{% for day in calendar %}
-							<div class="flex-none w-32 snap-center text-center">
-								<div class="mb-8">
-									<span class="block text-[10px] uppercase tracking-[0.4em] opacity-30 mb-1">{{ day.date|date('D') }}</span>
-									<span class="block text-2xl font-serif italic">{{ day.date|date('d M') }}</span>
-								</div>
+                <div class="pt-16">
+                    <button type="submit" class="w-full bg-zen-forest text-zen-sand px-12 py-4 uppercase text-[10px] tracking-[0.3em] rounded-full hover:bg-zen-ink transition-all shadow-md">
+                        Confirmer mon engagement
+                    </button>
+                </div>
 
-								<div class="space-y-4">
-									{% for slot in day.slots %}
-										<button type="button" class="w-full py-3 text-[10px] font-bold tracking-[0.2em] rounded-full border transition-all duration-300
-											                                        {{ slot.available
-											                                            ? 'border-zen-forest/30 text-zen-forest hover:bg-zen-forest hover:text-zen-sand slot-btn'
-											                                            : 'border-zen-ink/5 text-zen-ink/20 cursor-not-allowed line-through' }}" {% if not slot.available %} disabled {% endif %} onclick="selectInstant(this, '{{ slot.full|date('Y-m-d\\TH:i') }}')">
-											{{ slot.time }}
-										</button>
-									{% endfor %}
-								</div>
-							</div>
-						{% endfor %}
-					{% else %}
-						<p class="w-full text-center italic opacity-40">Chargement de l'horizon...</p>
-					{% endif %}
-				</div>
+                {{ form_end(form) }}
+            </div>
+        </div>
 
-				<div class="mt-8 pt-8 border-t border-zen-ink/5 text-center">
-					<p class="text-[10px] uppercase tracking-widest opacity-30 italic">
-						15 minutes de respiration entre chaque soin.
-					</p>
-				</div>
-			</div>
-		</div>
-	</main>
+        {# BLOC 2 : L'Horizon Temporel (Droite) #}
+        <div class="w-full md:w-2/3 bg-white/40 backdrop-blur-md p-8 md:p-12 rounded-2xl border border-zen-ink/5 shadow-xl sticky top-32">
+            <h3 class="font-cormorant italic text-3xl text-center mb-12">
+                Instants de Synchronicité
+            </h3>
 
-	<script>
-		function selectInstant(button, datetime) { // Sélection de l'input date_time (on cherche l'ID généré par Symfony)
-const dateInput = document.querySelector('input[type="datetime-local"]');
-if (dateInput) {
-dateInput.value = datetime;
-}
+            <div class="flex overflow-x-auto gap-8 pb-10 scrollbar-hide snap-x">
+                {% if calendar is defined and calendar is not empty %}
+                    {% for day in calendar %}
+                        <div class="flex-none w-32 snap-center text-center">
+                            <div class="mb-8">
+                                <span class="block text-[10px] uppercase tracking-[0.4em] opacity-30 mb-1">
+                                    {{ day.date|date('D')|trans }}
+                                </span>
+                                <span class="block text-2xl font-serif italic">
+                                    {{ day.date|date('d M') }}
+                                </span>
+                            </div>
 
-// Feedback visuel
-document.querySelectorAll('.slot-btn').forEach(btn => {
-btn.classList.remove('bg-zen-ink', 'text-zen-sand', 'border-zen-ink');
-btn.classList.add('border-zen-forest/30', 'text-zen-forest');
-});
-button.classList.remove('border-zen-forest/30', 'text-zen-forest');
-button.classList.add('bg-zen-ink', 'text-zen-sand', 'border-zen-ink');
-}
-	</script>
+                            <div class="space-y-4">
+                                {% for slot in day.slots %}
+                                    <button
+                                        type="button"
+                                        class="w-full py-3 text-[10px] font-bold tracking-[0.2em] rounded-full border transition-all duration-300
+                                        {{ slot.available
+                                            ? 'border-zen-forest/30 text-zen-forest hover:bg-zen-forest hover:text-zen-sand slot-btn'
+                                            : 'border-zen-ink/5 text-zen-ink/20 cursor-not-allowed line-through' }}"
+                                        {% if not slot.available %}disabled{% endif %}
+                                        data-full-date="{{ slot.full|date('Y-m-d\\TH:i') }}"
+                                        onclick="selectInstant(this, '{{ slot.full|date('Y-m-d\\TH:i') }}')">
+                                        {{ slot.time }}
+                                    </button>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="w-full text-center italic opacity-40">
+                        Chargement de l'horizon...
+                    </p>
+                {% endif %}
+            </div>
 
-	<style>
-		.scrollbar-hide::-webkit-scrollbar {
-			display: none;
-		}
-		.scrollbar-hide {
-			-ms-overflow-style: none;
-			scrollbar-width: none;
-		}
-	</style>
+            <div class="mt-8 pt-8 border-t border-zen-ink/5 text-center">
+                <p class="text-[10px] uppercase tracking-widest opacity-30 italic">
+                    15 minutes de respiration entre chaque soin.
+                </p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    function selectInstant(button, datetime) {
+        const dateInput =
+            document.querySelector('input[type="datetime-local"]') ||
+            document.querySelector('[id$="date_time"]');
+
+        if (dateInput) {
+            dateInput.value = datetime;
+        }
+
+        document.querySelectorAll('.slot-btn').forEach(btn => {
+            btn.classList.remove('bg-zen-ink', 'text-zen-sand', 'border-zen-ink');
+            btn.classList.add('border-zen-forest/30', 'text-zen-forest');
+        });
+
+        button.classList.remove('border-zen-forest/30', 'text-zen-forest');
+        button.classList.add('bg-zen-ink', 'text-zen-sand', 'border-zen-ink');
+    }
+</script>
+
+<style>
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+</style>
 {% endblock %}

@@ -12,21 +12,7 @@
     </head>
 
     <body class="bg-zen-sand text-zen-ink antialiased">
-        {# 1. LE LOTUS INJECTÉ EN CODE (S'affiche uniquement sur l'accueil) #}
-        {% if app.request.attributes.get('_route') == 'app_home' %}
-            <div class="lotus-watermark">
-                    .lotus-watermark {
-                position: fixed;
-                bottom: -150px;   /* Coupé en bas */
-                right: -150px;    /* Coupé à droite */
-                width: 700px;     /* Taille large mais aérée */
-                opacity: 0.03;    /* 3% seulement : le secret du luxe */
-                color: var(--color-zen-forest);
-                pointer-events: none;
-                z-index: -1;      /* DERRIÈRE le fond du site */
-}
-            </div>
-        {% endif %}
+
     
         {# 2. HEADER MASTER #}
         <header class="fixed top-0 w-full z-[100] bg-zen-sand/80 backdrop-blur-md border-b border-zen-ink/5">

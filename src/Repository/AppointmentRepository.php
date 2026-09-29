@@ -29,7 +29,6 @@ class AppointmentRepository extends ServiceEntityRepository
             ->select('COUNT(a.id)')
             ->where('a.dateTime < :requestedEnd')
             ->andWhere('a.dateTime > :bufferStart')
-            // On remplace le setParameters([]) par deux setParameter isolés
             ->setParameter('requestedEnd', $requestedEnd)
             ->setParameter('bufferStart', $bufferStart);
 
