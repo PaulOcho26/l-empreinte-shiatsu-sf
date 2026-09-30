@@ -16,21 +16,21 @@
     
         {# 2. HEADER MASTER #}
         <header class="fixed top-0 w-full z-[100] bg-zen-sand/80 backdrop-blur-md border-b border-zen-ink/5">
-            <nav class="max-w-[1440px] mx-auto px-[150px] h-20 flex items-center justify-between font-eb-garamond">
+            <nav class="max-w-[1440px] mx-auto px-6 md:px-12 h-20 flex items-center justify-between font-eb-garamond">
                 {# LOGO #}
-                <a href="{{ path('app_home') }}" class="text-xl font-cormorant italic tracking-widest uppercase text-zen-ink">
+                <a href="{{ path('app_home') }}" class="text-xl font-cormorant italic tracking-widest uppercase text-zen-ink flex-none">
                     L'Empreinte
                 </a>
 
                 {# BLOC CENTRAL DE NAVIGATION #}
-                <div class="flex gap-8 text-[10px] uppercase tracking-[0.25em] font-medium text-zen-ink/70 items-center">
+                <div class="flex flex-1 justify-center items-center gap-4 lg:gap-8 text-[10px] uppercase tracking-[0.25em] font-medium text-zen-ink/70">
                     <a href="{{ path('app_treatment_index') }}" class="hover:text-zen-forest transition-colors">Soins</a>
                     <a href="{{ path('app_sanctuary_index') }}" class="hover:text-zen-forest transition-colors">Sanctuaire</a>
                     <a href="{{ path('app_lexicon_index') }}" class="hover:text-zen-forest transition-colors">Lexique</a>
                     <a href="{{ path('app_exchange_init') }}" class="hover:text-zen-forest transition-colors">Contact</a>
                     
                     {# BARRE DE RECHERCHE #}
-                    <form action="{{ path('app_search') }}" method="GET" class="relative ml-4 group">
+                    <form action="{{ path('app_search') }}" method="GET" class="relative ml-4 group hidden sm:block">
                         <input type="text" name="q" placeholder="Rechercher..." 
                         class="bg-transparent border-b border-zen-ink/5 py-1 text-[10px] uppercase tracking-widest outline-none focus:border-zen-forest w-24 focus:w-40 transition-all placeholder:text-zen-ink/20">
                         <button type="submit" class="absolute right-0 bottom-2 opacity-20 group-hover:opacity-100 transition-opacity">🔍</button>
@@ -47,7 +47,7 @@
                             </a>
                         {% endif %}
 
-                        <a href="{{ path('app_member_dashboard') }}" class="text-zen-forest italic lowercase font-normal mr-3 hover:text-zen-ink transition-colors">
+                        <a href="{{ path('app_member_dashboard') }}" class="text-zen-forest italic lowercase font-normal mr-3 hover:text-zen-ink transition-colors hidden lg:block">
                             {{ app.user.firstName }}
                         </a>
                         <a href="{{ path('app_logout') }}" class="hover:text-red-800 transition-colors uppercase text-[9px] tracking-widest">Déconnexion</a>
@@ -57,7 +57,7 @@
                 </div>
 
                 {# BOUTON RÉSERVER #}
-                <a href="{{ path('app_appointment_new') }}" class="border border-zen-ink text-zen-ink px-8 py-2.5 text-[11px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-zen-ink hover:text-zen-sand transition-all shadow-sm">
+                <a href="{{ path('app_appointment_new') }}" class="flex-none border border-zen-ink text-zen-ink px-8 py-2.5 text-[11px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-zen-ink hover:text-zen-sand transition-all shadow-sm ml-4">
                     Réserver
                 </a>
             </nav>
