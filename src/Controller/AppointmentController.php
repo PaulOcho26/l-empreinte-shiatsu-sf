@@ -59,6 +59,8 @@ final class AppointmentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $requestedDate = $appointment->getDateTime();
+            $selectedTreatment = $appointment->getTreatment();
+            $submittedDuration = $selectedTreatment->getDuration();
 
             if ($requestedDate->format('N') == 7) {
                 $this->addFlash('error', 'Le Sanctuaire est clos le dimanche.');
@@ -68,7 +70,7 @@ final class AppointmentController extends AbstractController
                 ]);
             }
 
-            if (!$appointmentRepo->isSlotAvailable($requestedDate, $duration)) {
+            if (!$appointmentRepo->isSlotAvailable($requestedDate, $submittedDuration)) {
                 $this->addFlash('error', 'Ce créneau est déjà habité.');
 
                 return $this->redirectToRoute('app_appointment_new', [

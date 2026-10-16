@@ -22,16 +22,45 @@ class AppointmentRepository extends ServiceEntityRepository
      */
     public function isSlotAvailable(\DateTimeInterface $requestedDate, int $duration): bool
     {
-        $requestedEnd = (clone $requestedDate)->modify('+' . $duration . ' minutes');
-        $bufferStart = (clone $requestedDate)->modify('-15 minutes');
+        $bufferMinutes = 15;
 
-        $qb = $this->createQueryBuilder('a')
-            ->select('COUNT(a.id)')
-            ->where('a.dateTime < :requestedEnd')
-            ->andWhere('a.dateTime > :bufferStart')
-            ->setParameter('requestedEnd', $requestedEnd)
-            ->setParameter('bufferStart', $bufferStart);
+        $requestedStart = \DateTimeImmutable::createFromInterface($requestedDate);
+        $requestedEnd = $requestedStart->modify("+{$duration} minutes");
+        $requestedEndWithBuffer = $requestedEnd->modify("+{$bufferMinutes} minutes");
 
-        return (int) $qb->getQuery()->getSingleScalarResult() === 0;
+        $dayStart = $requestedStart->setTime(0, 0);
+        $dayEnd = $dayStart->modify('+1 day');
+
+        $appointments = $this->createQueryBuilder('a')
+            ->leftJoin('a.treatment', 't')
+            ->addSelect('t')
+            ->where('a.dateTime >= :dayStart')
+            ->andWhere('a.dateTime < :dayEnd')
+            ->setParameter('dayStart', $dayStart)
+            ->setParameter('dayEnd', $dayEnd)
+            ->getQuery()
+            ->getResult();
+
+        foreach ($appointments as $appointment) {
+            $existingDuration = $appointment->getTreatment()?->getDuration();
+
+            if ($existingDuration === null) {
+                continue;
+            }
+
+            $existingStart = $appointment->getDateTime();
+            $existingEndWithBuffer = $existingStart
+                ->modify('+' . ($existingDuration + $bufferMinutes) . ' minutes');
+
+            if (
+                $requestedStart < $existingEndWithBuffer
+                && $requestedEndWithBuffer > $existingStart
+            ) {
+                return false;
+            }
+        }
+
+        return true;
     }
+
 }
