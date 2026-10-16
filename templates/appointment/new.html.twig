@@ -103,6 +103,17 @@
 </main>
 
 <script>
+    const treatmentSelect = document.getElementById('appointment_treatment');
+
+    if (treatmentSelect) {
+        treatmentSelect.addEventListener('change', function () {
+            const baseUrl = '{{ path('app_appointment_new') }}';
+
+            window.location.href = this.value
+                ? baseUrl + '/' + this.value
+                : baseUrl;
+        });
+    }
     function selectInstant(button, datetime) {
         const dateInput =
             document.querySelector('input[type="datetime-local"]') ||
